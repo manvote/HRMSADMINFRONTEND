@@ -1,0 +1,148 @@
+
+.sidebar {
+  height: 100vh;
+  background: #1059B8;
+  color: white;
+  padding-top: 10px;
+  font-family: "Inter", sans-serif;
+  position: fixed;
+  width:256px;
+
+}
+.heading{
+  /* font-size: 20px; */
+  font-weight: 700;
+  font-style: bold;
+  color: white;
+  margin-bottom: 0px;
+}
+.access{
+  font-size: 11.8px;
+  font-weight: 400;
+   margin-bottom: 0px;
+}
+
+.navfont{
+  color: white;
+  text-decoration: none;
+  font-size: 14.6px;
+}
+
+.sidebar-header {
+  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid #DBE1F0;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(to right, #337CDB,#FFFFFF);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 20px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  flex-grow: 1;
+}
+
+.menu-item {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-left: 16px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+/* .menu-item:hover {
+  background: linear-gradient(to right, #FFFFFF,#ffffff06);
+  transition: background 0.3s ease;
+  color: #1059B8;
+  padding-left: 30px;
+} */
+.menu-item.active{
+  background: linear-gradient(to right, #FFFFFF,#ffffff06);
+  color: #1059B8;
+}
+
+.signout {
+  padding: 18px 25px;
+  border-top: 1px solid #DBE1F0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.signout:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* tABLET VIEW */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  .menu-item {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .sidebar-header h3 {
+    font-size: 16px;
+  }
+  .sidebar-header p {
+    font-size: 11px;
+  }
+}
+/* MOBILE VIEW */
+@media (max-width: 480px) {
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+  .menu {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 0;
+  }
+  .menu-item {
+    flex-direction: column;
+    font-size: 12px;
+    padding: 5px 0;
+    margin-left: 0;
+    border-radius: 0;
+  }
+  .sidebar-header, .signout {
+    display: none;
+  }
+}
+.menu-item-icon {
+  font-size: 20px;
+}

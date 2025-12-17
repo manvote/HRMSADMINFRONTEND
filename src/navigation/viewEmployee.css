@@ -1,0 +1,128 @@
+.view-navigation {
+    display: flex;
+    align-items: center;
+    background-color: #ffff;
+    border-radius: 12px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+    
+}
+.view-container{
+    background-color: rgba(245, 248, 255, 1);
+    padding: 20px;
+}
+
+.view-navigation img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    margin-left: 20px;
+}
+
+.view-content {
+
+    margin: 20px;
+}
+
+.view-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #163b7a;
+    /* padding: 0px 0 10px 0; */
+}
+
+.view1 {
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 14px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    color: rgba(102, 124, 153, 1);
+}
+.status{
+    font-size: 11.4px;
+    font-weight: 700px;
+    font-style: bold;
+    padding: 5px 11px 5px 11px;
+}
+
+.status-div{
+    background-color: rgba(220, 252, 231, 1);
+    color: rgba(21, 128, 61, 1);
+    margin-left: 50px;
+    border-radius: 20px;
+   
+   
+}
+.view2{
+    justify-items: right;
+}
+.view3{
+    margin-right: 20px;
+}
+.edit-btn{
+     padding: 9px 12px;
+  border: 1px solid #e6edf8;
+  background: white;
+  color: #163b7a;
+  border-radius: 10px;
+  background-color: rgba(235, 239, 250, 1);
+}
+.offboard-btn{
+     padding: 9px 12px;
+  border: 1px solid #e6edf8;
+  background: white;
+  color: #163b7a;
+  border-radius: 10px;
+  background-color: rgba(235, 239, 250, 1);
+}
+.rest-btn{
+     padding: 9px 12px;
+  border: 1px solid #e6edf8;
+  background: white;
+  color: #163b7a;
+  border-radius: 10px;
+  background-color: rgba(235, 239, 250, 1);
+}
+.btn-action{
+    gap: 20px;
+    display: flex;
+}
+.tablist-container{
+    background-color: rgba(235, 239, 250, 1);
+    margin: 20px 0 0 0;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+    justify-content: space-between;
+    justify-items: center;
+    display: flex;
+}
+.tab-name{
+    font-size: 12.5px;
+    font-weight: 400;
+}
+.tab-active{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    cursor: pointer;
+    padding: 8px;
+    background-color: rgba(245, 248, 255, 1);
+    width: 161px;
+    border-radius: 8px;
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.05);
+    color: black;
+}
+.tab-inactive{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    cursor: pointer;
+    padding: 8px;
+    width: 161px;
+    border-radius: 8px;
+    color: rgba(102, 124, 153, 1);
+}
+.tab-icon{
+    font-size: 12.5px;
+}
