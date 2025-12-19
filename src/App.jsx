@@ -1,8 +1,12 @@
 import Navbar from './components/navbar'
 import Employees from './pages/employees'
 import SearchBar from './components/searchbar';
+
+//Navigation
 import ViewEmployee from './navigation/viewEmployee';
 import AddEmployee from './navigation/AddEmployee';
+import EditEmployee from './navigation/EditEmployee';
+import Offboarding from './navigation/Offboarding';
 
 
 import './App.css'
@@ -38,6 +42,8 @@ function RouterApp() {
       <Route path="/employee" element={<Employees />} />
       <Route path="/viewEmployee/:id" element={<ViewEmployee />} />
       <Route path="/addEmployee" element={<AddEmployee />} />
+      <Route path="/editEmployee/:id" element={<EditEmployee />} />
+      <Route path="/offboarding/:id" element={<Offboarding />} />
     </Routes>
   )
 }

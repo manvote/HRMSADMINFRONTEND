@@ -57,7 +57,7 @@ function Employees() {
             <div className="top-actions">
               <button className="ghost">Bulk Upload</button>
               <button className="ghost">Export</button>
-              <button className="primary" onClick={()=>{navigate('/addEmployee')}}>Add Employee</button>
+              <button className="primary ghost-add" onClick={() => { navigate('/addEmployee') }}>Add Employee</button>
             </div>
           </div>
           <div className="empcard">
@@ -166,9 +166,12 @@ function EmployeeGrid({ filteredUsers }) {
             <div className="card-bottom">
               <button
                 className="primary view-button"
-                onClick={() =>  navigate(`/viewEmployee/${emp.id}`) }
+                onClick={() => navigate(`/viewEmployee/${emp.id}`)}
               > <MdOutlineRemoveRedEye className="view-icon me-3" />View </button>
-              <button className="ghost edit-button"><FaRegEdit className="edit-icon me-3" />Edit</button>
+              <button
+                className="ghost edit-button"
+                onClick={() => navigate(`/editEmployee/${emp.id}`)}>
+                <FaRegEdit className="edit-icon me-3" />Edit</button>
             </div>
           </div>
         </div>

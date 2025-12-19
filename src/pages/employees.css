@@ -56,6 +56,15 @@
   background: white;
   color: #163b7a;
   border-radius: 10px;
+  font-size: 14px;
+}
+.ghost-add{
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1px solid #e6edf8;
+  background: #0a53c0;
+  color: white;
+  border-radius: 10px;
 }
 .empcard{
   margin: 20px;
