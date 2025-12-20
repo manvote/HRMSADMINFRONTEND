@@ -1,6 +1,6 @@
 import React from "react";
 import "./navbar.css";
-import SVG from "../assets/SVG.png";
+import SVG from "../assets/hr-icon.png";
 import { Routes, Route,Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -35,7 +35,7 @@ function Navbar() {
     {name: "Settings", icon : <IoSettingsOutline />, path:"/settings"}
   ];
 
-  const [Active,SetActive]=useState()
+  const [Active, SetActive]= useState()
   return (
 
     <>
@@ -67,7 +67,6 @@ function Navbar() {
         </span> Sign Out
       </div>
     </nav>
-    
     </>
   );
 }

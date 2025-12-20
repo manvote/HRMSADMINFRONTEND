@@ -1,8 +1,5 @@
 import React from "react";
-// import Navbar from "../components/navbar";
 import './employees.css';
-import SearchBar from "../components/searchbar.jsx";
-
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -46,8 +43,7 @@ function Employees() {
   });
   return (
     <>
-      <div className="">
-        <div className="employee-div">
+      <div>
           <div className="page-heading">
             <div>
               <h1 className="subhead">Employee Directory</h1>
@@ -73,7 +69,6 @@ function Employees() {
             />
           </div>
         </div>
-      </div>
     </>
   );
 }
@@ -159,7 +154,7 @@ function EmployeeGrid({ filteredUsers }) {
                 {emp.dept}
               </div>
             </div>
-            <div className="mt-3">
+            <div className="mt-3 ">
               <p className="mb-2"><FiBriefcase className="icon1 align-center" /> <span className="id align-center">ID:<span className="ps-2">{emp.id}</span></span></p>
               <p className="employee-location"><SlLocationPin className="icon1" /><span className="id ps-1">{emp.location}</span></p>
             </div>
