@@ -1,7 +1,6 @@
-
-
 import Employees from './pages/employees'
 import MainLayout from './MainLayout';
+import Payroll from './pages/Payroll';
 
 //Navigation
 import ViewEmployee from './navigation/viewEmployee';
@@ -19,23 +18,6 @@ import './index.css';
 function App() {
   return (
     <>
-
-
-      <div className="App">
-        {/* <div>
-        <Navbar />
-      </div>
-      <div>
-        <SearchBar />
-        <Routes>
-          <Route path="/employee" element={<Employees />} />
-          <Route path="/viewEmployee/:id" element={<ViewEmployee />} />
-          <Route path="/addEmployee" element={<AddEmployee />} />
-          <Route path="/editEmployee/:id" element={<EditEmployee />} />
-          <Route path="/offboarding/:id" element={<Offboarding />} />
-        </Routes>
-      </div> */}
-      </div>
       <Routes>
 
         <Route path="/" element={<Login />} />
@@ -47,6 +29,7 @@ function App() {
           <Route path="/addEmployee" element={<AddEmployee />} />
           <Route path="/editEmployee/:id" element={<EditEmployee />} />
           <Route path="/offboarding/:id" element={<Offboarding />} />
+          <Route path="/payroll" element={<Payroll />} />
         </Route>
 
       </Routes>
