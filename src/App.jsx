@@ -8,13 +8,14 @@ import ViewEmployee from './navigation/viewEmployee';
 import AddEmployee from './navigation/AddEmployee';
 import EditEmployee from './navigation/EditEmployee';
 import Offboarding from './navigation/Offboarding';
+import Payroll from './pages/Payroll';
 import ConfirmPassword from './auth/ConfirmPassword';
 import Login from './auth/Login';
 
 // import './index.css';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import './index.css';
+// import './index.css';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="/addEmployee" element={<AddEmployee />} />
           <Route path="/editEmployee/:id" element={<EditEmployee />} />
           <Route path="/offboarding/:id" element={<Offboarding />} />
+          <Route path="/payroll" element={<Payroll />} />
         </Route>
 
       </Routes>

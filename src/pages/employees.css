@@ -48,6 +48,7 @@
   color: white;
   border-radius: 10px;
   border: none;
+  display: flex;
 }
 
 .ghost {
@@ -57,6 +58,7 @@
   color: #163b7a;
   border-radius: 10px;
   font-size: 14px;
+  display: flex;
 }
 .ghost-add{
   font-size: 14px;

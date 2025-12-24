@@ -154,9 +154,11 @@ function EmployeeGrid({ filteredUsers }) {
                 {emp.dept}
               </div>
             </div>
-            <div className="mt-3 ">
+            <div className="mt-3 d-flex">
               <p className="mb-2"><FiBriefcase className="icon1 align-center" /> <span className="id align-center">ID:<span className="ps-2">{emp.id}</span></span></p>
-              <p className="employee-location"><SlLocationPin className="icon1" /><span className="id ps-1">{emp.location}</span></p>
+            </div>
+            <div className="d-flex">
+               <p className="employee-location"><SlLocationPin className="icon1" /><span className="id ps-1">{emp.location}</span></p>
             </div>
             <div className="card-bottom">
               <button
