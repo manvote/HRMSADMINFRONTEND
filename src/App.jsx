@@ -7,6 +7,11 @@ import ViewEmployee from './navigation/viewEmployee';
 import AddEmployee from './navigation/AddEmployee';
 import EditEmployee from './navigation/EditEmployee';
 import Offboarding from './navigation/Offboarding';
+import ProcessPayroll from './navigation/ProcessPayroll';
+import RunPayrollCalculation from './navigation/RunPayrollCalculation';
+import ConfirmPayrollProcess from './navigation/ConfirmPayrollProcess';
+
+
 import ConfirmPassword from './auth/ConfirmPassword';
 import Login from './auth/Login';
 
@@ -30,6 +35,9 @@ function App() {
           <Route path="/editEmployee/:id" element={<EditEmployee />} />
           <Route path="/offboarding/:id" element={<Offboarding />} />
           <Route path="/payroll" element={<Payroll />} />
+          <Route path="/processPayroll" element={<ProcessPayroll />} />
+          <Route path="/runPayrollCalculation" element={<RunPayrollCalculation />} />
+          <Route path="/confirmPayrollProcess" element={<ConfirmPayrollProcess />} />
         </Route>
 
       </Routes>
