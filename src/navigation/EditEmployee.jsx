@@ -1,226 +1,40 @@
-// import React from "react";
-// import "../pages/employees.jsx"
-// import { useParams } from "react-router-dom";
-// import "./AddEmployee.css";
-
-// import { useState } from "react";
-
-// //import icon
-// import { IoPersonOutline } from "react-icons/io5";
-// import { FiBriefcase } from "react-icons/fi";
-// import { LuWallet } from "react-icons/lu";
-// import { GrDocumentText } from "react-icons/gr";
-// import { LuUpload } from "react-icons/lu";
-
-// const employees = [
-//     { id: "EMP003", name: "Anita Desai", role: "Finance Lead", location: "Mumbai", dept: "Finance", status: "Active", avatar: "https://i.pravatar.cc/150?img=47" },
-//     { id: "EMP006", name: "Arjun Mehta", role: "DevOps Engineer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=12" },
-//     { id: "EMP007", name: "Kavya Reddy", role: "HR Executive", location: "Hyderabad", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=5" },
-//     { id: "EMP001", name: "Priya Sharma", role: "HR Manager", location: "Chennai", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=65" },
-//     { id: "EMP002", name: "Rahul Verma", role: "Senior Developer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=15" },
-//     { id: "EMP008", name: "Rohan Kumar", role: "Accountant", location: "Chennai", dept: "Finance", status: "On Leave", avatar: "https://i.pravatar.cc/150?img=30" },
-//     { id: "EMP005", name: "Sneha Patel", role: "Operations Manager", location: "Remote", dept: "Operations", status: "Active", avatar: "https://i.pravatar.cc/150?img=33" },
-//     { id: "EMP004", name: "Vikram Singh", role: "Marketing Head", location: "Hyderabad", dept: "Marketing", status: "Active", avatar: "https://i.pravatar.cc/150?img=20" }
-// ];
-
-// const personalFields = [
-//     { label: "Full Name", type: "text", required: true },
-//     { label: "Employee ID", type: "text" },
-//     { label: "Email Address", type: "email",  required: true },
-//     { label: "Phone Number", type: "text",  required: true },
-//     { label: "Gender", type: "select", options: ["Female", "Male"], value: "Female" },
-//     { label: "Date of Birth", type: "date", required: true },
-// ];
-
-// const employmentFields = [
-//     { label: "Department", type: "select", options: ["Software Developer","Project Manager","HR"], required: true },
-//     { label: "Designation", type: "text",required: true },
-//     { label: "Employment Type", type: "select", options: ["Full Time", "Contract"] },
-//     { label: "Date of Joining", type: "date", required: true },
-//     { label: "Location", type: "select", options: ["Chennai", "Bangalore"] },
-//     { label: "Reporting Manager", type: "text", required: true },
-// ];
-
-// const salaryFields = [
-//     { label: "CTC (Annual)", type: "number" },
-//     { label: "Basic Pay (Monthly)", type: "number" },
-//     { label: "Allowances (Monthly)", type: "number"},
-//     { label: "Deductions (Monthly)", type: "number"},
-// ];
-
-// const documents = [
-//     "Resume / CV",
-//     "ID Proof",
-//     "Offer Letter",
-//     "Experience Certificate",
-// ];
-
-// const employeeData=()=>{
-//     const { id } = useParams();
-//     const employee = employees.find((emp) => emp.id === id);
-//     return employee;
-// }
-
-// function EditEmployee  () {
-
-//     return (
-//         <>
-//        <div className="edit-container">
-//                    {/* Header */}
-//                    <div className="edit-header">
-//                        <h2>Add Employee Information</h2>
-//                    </div>
-
-//                    {/* Personal Info */}
-//                    <Section title="Personal Information" icon={<IoPersonOutline />}>
-//                        {personalFields.map((field, index) => (
-//                            <FormField key={index} {...field} />
-//                        ))}
-//                    </Section>
-
-//                    {/* Employment Details */}
-//                    <Section title="Employment Details" icon={<FiBriefcase />}>
-//                        {employmentFields.map((field, index) => (
-//                            <FormField key={index} {...field} />
-//                        ))}
-//                    </Section>
-
-//                    {/* Salary */}
-//                    <Salary title="Salary & Compensation" icon={<LuWallet />}>
-//                        {salaryFields.map((field, index) => (
-//                            <FormField key={index} {...field} />
-//                        ))}
-//                    </Salary>
-
-//                    {/* Documents */}
-//                    <section className="card">
-//                        <div className="d-flex mb-3">
-//                            <p className="mb-1 icon"><GrDocumentText /></p>
-//                            <h3 className="card-title mb-0 ps-1">Documents</h3>
-//                        </div>
-
-//                        <div className="document-grid">
-//                            {documents.map((doc, index) => (
-//                                <div key={index} className="doc-box">
-//                                <div className="upload-icon"><LuUpload /></div>
-//                                    {doc}
-//                                </div>
-//                            ))}
-//                        </div>
-//                    </section>
-
-//                    {/* Buttons */}
-//                    <div className="action-buttons">
-//                        <button className="btn-primary">Save Changes</button>
-//                        <button className="btn-secondary">Discard</button>
-//                    </div>
-//                </div>
-//                </>
-//            );
-
-//        };
-
-//        function Section({ title, employee, children, icon }) {
-//            return (
-//                <section className="card">
-//                <div className="d-flex mb-3">
-//                    <p className="icon mb-1">{icon}</p>
-//                    <h3 className="card-title mb-0 ps-1">{title}</h3> 
-//                </div>
-//                <div className="form-grid">{children}</div>
-
-//                </section>
-//            );
-//        };
-
-//        function Salary({ title, children, icon }) {
-//            return (
-//                <section className="card">
-//                    <div className="d-flex mb-3">
-//                    <p className="icon mb-1">{icon}</p>
-//                    <h3 className="card-title mb-0 ps-1">{title}</h3> 
-//                </div>
-//                <div className="salary-grid">{children}</div>
-//                </section>
-//            );
-//        };
-
-//        function FormField({ label, type, options, value, required, disabled }) {
-//            return (
-//                <div className="form-group">
-//                    <label>
-//                        {label} {required && "*"}
-//                    </label>
-
-//                    {type === "select" ? (
-//                        <select>
-//                            {options.map((opt, i) => (
-//                                <option key={i}>{opt}</option>
-//                            ))}
-//                        </select>
-//                    ) : (
-//                        <input type={type} defaultValue={employeeData()} disabled={disabled}  />
-//                    )}
-//                </div>
-//            );
-//        };
-
-// export default EditEmployee
-
 import React from "react";
+import "../pages/employees.jsx"
 import { useParams } from "react-router-dom";
 import "./AddEmployee.css";
+import axios from "axios";
 
-// Icons
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+//import icon
 import { IoPersonOutline } from "react-icons/io5";
 import { FiBriefcase } from "react-icons/fi";
-import { LuWallet, LuUpload } from "react-icons/lu";
+import { LuWallet } from "react-icons/lu";
 import { GrDocumentText } from "react-icons/gr";
+import { LuUpload } from "react-icons/lu";
 
-/* ================= EMPLOYEE DATA ================= */
-
-const employees = [
-  { id: "EMP003", name: "Anita Desai", role: "Finance Lead", location: "Mumbai", dept: "Finance", status: "Active", avatar: "https://i.pravatar.cc/150?img=47" },
-  { id: "EMP006", name: "Arjun Mehta", role: "DevOps Engineer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=12" },
-  { id: "EMP007", name: "Kavya Reddy", role: "HR Executive", location: "Hyderabad", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=5" },
-  { id: "EMP001", name: "Priya Sharma", role: "HR Manager", location: "Chennai", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=65" },
-  { id: "EMP002", name: "Rahul Verma", role: "Senior Developer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=15" },
-  { id: "EMP008", name: "Rohan Kumar", role: "Accountant", location: "Chennai", dept: "Finance", status: "On Leave", avatar: "https://i.pravatar.cc/150?img=30" },
-  { id: "EMP005", name: "Sneha Patel", role: "Operations Manager", location: "Remote", dept: "Operations", status: "Active", avatar: "https://i.pravatar.cc/150?img=33" },
-  { id: "EMP004", name: "Vikram Singh", role: "Marketing Head", location: "Hyderabad", dept: "Marketing", status: "Active", avatar: "https://i.pravatar.cc/150?img=20" }
-];
-
-/* ================= FIELD CONFIG ================= */
-
-const personalFields = [
-  { label: "Full Name", name: "name", type: "text", required: true },
-  { label: "Employee ID", name: "id", type: "text", disabled: true },
-  { label: "Email Address", name: "email", type: "email" },
-  { label: "Phone Number", name: "phone", type: "text" },
-  {
-    label: "Gender",
-    name: "gender",
-    type: "select",
-    options: ["Female", "Male"],
-  },
+const personalInfoFields = [
+  { label: "First Name", name: "first_name", valueKey: "first_name" },
+  { label: "Employee ID", name: "employee_code", valueKey: "employee_code", disabled: true },
+  { label: "Email", name: "email", valueKey: "email" },
+  { label: "Phone", name: "phone", valueKey: "phone" },
+  { label: "Gender", name: "gender", valueKey: "gender" },
+  { label: "Date of Birth", name: "dob", type: "date", valueKey: "dob" },
 ];
 
 const employmentFields = [
-  { label: "Department", name: "dept", type: "text" },
-  { label: "Designation", name: "role", type: "text" },
-  {
-    label: "Location",
-    name: "location",
-    type: "select",
-    options: ["Mumbai", "Bangalore", "Chennai"],
-  },
+  { label: "Designation", name: "designation", valueKey: "designation" },
+  { label: "Department", name: "department", valueKey: "department" },
+  { label: "Location", name: "location", valueKey: "location" },
+  { label: "Date of Joining", name: "date_of_joining", type: "date", valueKey: "date_of_joining" },
 ];
 
+
 const salaryFields = [
-  { label: "CTC (Annual)", name: "ctc", type: "number" },
-  { label: "Basic Pay (Monthly)", name: "basic", type: "number" },
-  { label: "Allowances (Monthly)", name: "allowance", type: "number" },
-  { label: "Deductions (Monthly)", name: "deduction", type: "number" },
+  { label: "CTC (Annual)", type: "number",valueKey: "annual_ctc" },
+  { label: "Basic Pay (Monthly)", type: "number",valueKey: "basic_pay" },
+  { label: "Allowances (Monthly)", type: "number",valueKey: "allowances" },
+  { label: "Deductions (Monthly)", type: "number",valueKey: "deductions" },
 ];
 
 const documents = [
@@ -230,69 +44,140 @@ const documents = [
   "Experience Certificate",
 ];
 
-/* ================= MAIN COMPONENT ================= */
 
 function EditEmployee() {
-  const { id } = useParams();
-  const employee = employees.find((emp) => emp.id === id);
 
-  if (!employee) {
-    return <p style={{ padding: 20 }}>Employee not found</p>;
-  }
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      try {
+        const res = await axios.get(
+          `https://hrmsbackendej88.onrender.com/api/employees/${id}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access")}`,
+            },
+          }
+        );
+
+        setFormData({
+          ...res.data,
+          full_name: `${res.data.first_name || ""} ${res.data.last_name || ""}`.trim()
+        });
+      } catch (err) {
+        console.error(err);
+        alert("Failed to load employee data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEmployee();
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await axios.put(
+        `https://hrmsbackendej88.onrender.com/api/employees/${id}/update/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
+      );
+
+      alert("Employee updated successfully");
+      navigate(`/viewEmployee/${id}`);
+    } catch (err) {
+      console.error(err);
+      alert("Update failed");
+    }
+  };
+
+  if (loading) return <p className="p-4">Loading...</p>;
 
   return (
-    <div className="edit-container">
-      <div className="edit-header">
-        <h2>Edit Employee Information</h2>
-      </div>
-
-      <Section title="Personal Information" icon={<IoPersonOutline />}>
-        {personalFields.map((field, index) => (
-          <FormField key={index} field={field} employee={employee} />
-        ))}
-      </Section>
-
-      <Section title="Employment Details" icon={<FiBriefcase />}>
-        {employmentFields.map((field, index) => (
-          <FormField key={index} field={field} employee={employee} />
-        ))}
-      </Section>
-
-      <Salary title="Salary & Compensation" icon={<LuWallet />}>
-        {salaryFields.map((field, index) => (
-          <FormField key={index} field={field} employee={{}} />
-        ))}
-      </Salary>
-
-      <section className="card">
-        <div className="d-flex mb-3">
-          <p className="icon mb-1">
-            <GrDocumentText />
-          </p>
-          <h3 className="card-title mb-0 ps-1">Documents</h3>
+    <>
+      <div className="edit-container">
+        {/* Header */}
+        <div className="edit-header">
+          <h2>Edit Employee Information</h2>
         </div>
-
-        <div className="document-grid">
-          {documents.map((doc, index) => (
-            <div key={index} className="doc-box">
-              <div className="upload-icon"><LuUpload /></div>
-              {doc}
-            </div>
+        <Section title="Personal Information" icon={<IoPersonOutline />}>
+          {personalInfoFields.map((field, index) => (
+            <FormField
+              key={index}
+              label={field.label}
+              name={field.name}
+              type={field.type}
+              value={formData[field.valueKey] || ""}
+              disabled={field.disabled}
+              onChange={handleChange}
+            />
           ))}
+        </Section>
+
+        <Section title="Employment Details" icon={<FiBriefcase />}>
+          {employmentFields.map((field, index) => (
+            <FormField
+              key={index}
+              label={field.label}
+              name={field.name}
+              type={field.type}
+              value={formData[field.valueKey] || ""}
+              onChange={handleChange}
+            />
+          ))}
+        </Section>
+
+        {/* Salary */}
+        <Salary title="Salary & Compensation" icon={<LuWallet />}>
+          {salaryFields.map((field, index) => (
+            <FormField key={index} {...field} onChange={handleChange}/>
+          ))}
+        </Salary>
+
+        {/* Documents */}
+        <section className="card">
+          <div className="d-flex mb-3">
+            <p className="mb-1 icon"><GrDocumentText /></p>
+            <h3 className="card-title mb-0 ps-1">Documents</h3>
+          </div>
+
+          <div className="document-grid">
+            {documents.map((doc, index) => (
+              <div key={index} className="doc-box">
+                <div className="upload-icon"><LuUpload /></div>
+                {doc}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Buttons */}
+        <div className="action-buttons">
+          <button className="btn-primary" onClick={handleSubmit}>Save Changes</button>
+          <button className="btn-secondary">Discard</button>
         </div>
-      </section>
-
-      <div className="action-buttons">
-        <button className="btn-primary">Save Changes</button>
-        <button className="btn-secondary">Discard</button>
       </div>
-    </div>
+    </>
   );
-}
 
-/* ================= REUSABLE COMPONENTS ================= */
+};
 
-function Section({ title, icon, children }) {
+function Section({ title, employee, children, icon }) {
   return (
     <section className="card">
       <div className="d-flex mb-3">
@@ -300,11 +185,12 @@ function Section({ title, icon, children }) {
         <h3 className="card-title mb-0 ps-1">{title}</h3>
       </div>
       <div className="form-grid">{children}</div>
+
     </section>
   );
-}
+};
 
-function Salary({ title, icon, children }) {
+function Salary({ title, children, icon }) {
   return (
     <section className="card">
       <div className="d-flex mb-3">
@@ -314,11 +200,18 @@ function Salary({ title, icon, children }) {
       <div className="salary-grid">{children}</div>
     </section>
   );
-}
+};
 
-function FormField({ field, employee }) {
-  const { label, name, type, options, required, disabled } = field;
-
+function FormField({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  options = [],
+  required,
+  disabled,
+}) {
   return (
     <div className="form-group">
       <label>
@@ -326,7 +219,7 @@ function FormField({ field, employee }) {
       </label>
 
       {type === "select" ? (
-        <select defaultValue={employee[name] || ""}>
+        <select name={name} value={value || ""} onChange={onChange}>
           <option value="">Select</option>
           {options.map((opt, i) => (
             <option key={i} value={opt}>
@@ -337,7 +230,9 @@ function FormField({ field, employee }) {
       ) : (
         <input
           type={type}
-          defaultValue={employee[name] || ""}
+          name={name}
+          value={value || ""}
+          onChange={onChange}
           disabled={disabled}
         />
       )}

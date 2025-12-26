@@ -2,8 +2,9 @@ import React from "react";
 import "../pages/employees.jsx"
 import { useParams } from "react-router-dom";
 import "./viewEmployee.css";
+import axios from "axios";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 //import icon
@@ -19,22 +20,22 @@ import { FiDownload } from "react-icons/fi";
 import { FiCheckCircle } from "react-icons/fi";
 import { MdHomeWork } from "react-icons/md";
 import { FaRegCalendarMinus } from "react-icons/fa";
-import {FaRegEdit} from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlinePersonAddDisabled } from "react-icons/md";
 
 
 //employee data
-const employees = [
-    { id: "EMP003", name: "Anita Desai", role: "Finance Lead", location: "Mumbai", dept: "Finance", status: "Active", avatar: "https://i.pravatar.cc/150?img=47" },
-    { id: "EMP006", name: "Arjun Mehta", role: "DevOps Engineer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=12" },
-    { id: "EMP007", name: "Kavya Reddy", role: "HR Executive", location: "Hyderabad", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=5" },
-    { id: "EMP001", name: "Priya Sharma", role: "HR Manager", location: "Chennai", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=65" },
-    { id: "EMP002", name: "Rahul Verma", role: "Senior Developer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=15" },
-    { id: "EMP008", name: "Rohan Kumar", role: "Accountant", location: "Chennai", dept: "Finance", status: "On Leave", avatar: "https://i.pravatar.cc/150?img=30" },
-    { id: "EMP005", name: "Sneha Patel", role: "Operations Manager", location: "Remote", dept: "Operations", status: "Active", avatar: "https://i.pravatar.cc/150?img=33" },
-    { id: "EMP004", name: "Vikram Singh", role: "Marketing Head", location: "Hyderabad", dept: "Marketing", status: "Active", avatar: "https://i.pravatar.cc/150?img=20" }
-];
+// const employees = [
+//     { id: "EMP003", name: "Anita Desai", role: "Finance Lead", location: "Mumbai", dept: "Finance", status: "Active", avatar: "https://i.pravatar.cc/150?img=47" },
+//     { id: "EMP006", name: "Arjun Mehta", role: "DevOps Engineer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=12" },
+//     { id: "EMP007", name: "Kavya Reddy", role: "HR Executive", location: "Hyderabad", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=5" },
+//     { id: "EMP001", name: "Priya Sharma", role: "HR Manager", location: "Chennai", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=65" },
+//     { id: "EMP002", name: "Rahul Verma", role: "Senior Developer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=15" },
+//     { id: "EMP008", name: "Rohan Kumar", role: "Accountant", location: "Chennai", dept: "Finance", status: "On Leave", avatar: "https://i.pravatar.cc/150?img=30" },
+//     { id: "EMP005", name: "Sneha Patel", role: "Operations Manager", location: "Remote", dept: "Operations", status: "Active", avatar: "https://i.pravatar.cc/150?img=33" },
+//     { id: "EMP004", name: "Vikram Singh", role: "Marketing Head", location: "Hyderabad", dept: "Marketing", status: "Active", avatar: "https://i.pravatar.cc/150?img=20" }
+// ];
 
 //salary TAB
 const salaryCards = [
@@ -235,58 +236,129 @@ const tabList = [
 
 function ViewEmployee() {
     const { id } = useParams();
-    const employee = employees.find(emp => emp.id === id);
+    const navigate = useNavigate();
 
-    if (!employee) {
-        return <div>Employee not found</div>;
+    const [employee, setEmployee] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    const [activeTab, setActiveTab] = useState(1);
+
+    useEffect(() => {
+        const fetchEmployee = async () => {
+            try {
+                const response = await axios.get(
+                    `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/`,
+                    {
+                        headers: {
+                            Accept: "application/json",
+                            Authorization: `Bearer ${localStorage.getItem("access")}`,
+                        },
+                    }
+                );
+
+                setEmployee(response.data);
+            } catch (err) {
+                console.error(err);
+                setError("Failed to load employee details");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchEmployee();
+    }, [id]);
+
+    if (loading) {
+        return <div className="text-center p-5">Loading employee...</div>;
     }
 
-    const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState(1);
-    return (
-        <>
-            <div className="view-container">
-                <div className="container-fluid view-navigation pe-4">
-                    <div>
-                        <img src={employee.avatar} alt={employee.name} />
-                    </div>
-                    <div className="view-content">
-                        <div className="view-name d-flex m-0">{employee.name}
-                            <span>
-                                <div className="status-div"><p className="status mb-0">{employee.status}</p></div>
-                            </span>
-                        </div>
-                        <p className="view1 mb-0 ">{employee.role}</p>
-                        <p className="view1 mb-0 pt-2"><SlLocationPin className="icon1" /> {employee.location}
-                            <span className="ps-4"><FiBriefcase className="icon1 align-center" />{employee.dept}</span></p>
-                    </div>
-                    <div className="ms-auto">
-                        <div className="btn-action">
-                            <button className="edit-btn" onClick={() => navigate(`/editEmployee/${employee.id}`)}> 
-                            <FaRegEdit className="edit-icon me-1" />Edit Profile</button>
-                            <button className="rest-btn">
-                                <IoKeyOutline className="rest-icon me-1"/>Reset Passowrd</button>
-                            <button
-                                className="offboard-btn"
-                                onClick={() => navigate(`/offboarding/${employee.id}`)}>
-                                <MdOutlinePersonAddDisabled className="offboard-icon me-1"/>
-                                Offboard</button>
-                        </div>
+    if (error) {
+        return <div className="text-center text-danger p-5">{error}</div>;
+    }
 
-                    </div>
+    if (!employee) {
+        return <div className="text-center p-5">Employee not found</div>;
+    }
+    const fullName = (emp) =>
+        `${emp?.first_name || ""} ${emp?.last_name || ""}`.trim() || "-";
+    
+    return (
+        <div className="view-container">
+            <div className="container-fluid view-navigation pe-4">
+                <div>
+                    <img
+                        src={employee.avatar || "https://i.pravatar.cc/150"}
+                        alt={employee.name || "Employee"}
+                    />
                 </div>
-                <Tablist activeTab={activeTab} setActiveTab={setActiveTab} />
-                <div className="tab-content">
-                    {activeTab === 1 && <Overview employee={employee} />}
-                    {activeTab === 2 && <Jobs employee={employee} />}
-                    {activeTab === 3 && <Salary employee={employee} />}
-                    {activeTab === 4 && <Documents employee={employee} />}
-                    {activeTab === 5 && <Attendance employee={employee} />}
-                    {activeTab === 6 && <Leave employee={employee} />}
-                    {activeTab === 7 && <Perfomance employee={employee} />}
+
+                <div className="view-content">
+                    <div className="view-name d-flex m-0">
+                        {fullName(employee)}
+                        <span className="mt-2">
+                            <div className="status-div">
+                                <p className="status mb-0">
+                                    {employee.status || "N/A"}
+                                </p>
+                            </div>
+                        </span>
+                    </div>
+                    <div className="d-flex"> 
+                        <p className="view1 mb-0">
+                        {employee.role || "-"}
+                    </p>
+                    </div>
+                    
+                    <div className="view2">
+                        <p className="view1 mb-0 pt-2">
+                        <SlLocationPin className="icon1" /> {employee.location || "-"}
+                        
+                            <FiBriefcase className="icon1" /> {employee.department || "-"}
+                       
+                    </p>
+                    </div>
+                    
+                </div>
+
+                <div className="ms-auto">
+                    <div className="btn-action">
+                        <button
+                            className="edit-btn"
+                            onClick={() => navigate(`/editEmployee/${employee.id}`)}
+                        >
+                            <FaRegEdit className="me-1" />
+                            Edit Profile
+                        </button>
+
+                        <button className="rest-btn">
+                            <IoKeyOutline className="me-1" />
+                            Reset Password
+                        </button>
+
+                        <button
+                            className="offboard-btn"
+                            onClick={() => navigate(`/offboarding/${employee.id}`)}
+                        >
+                            <MdOutlinePersonAddDisabled className="me-1" />
+                            Offboard
+                        </button>
+                    </div>
                 </div>
             </div>
-        </>
+
+            <Tablist activeTab={activeTab} setActiveTab={setActiveTab} />
+
+            <div className="tab-content">
+                {activeTab === 1 && <Overview employee={employee} />}
+                {activeTab === 2 && <Jobs employee={employee} />}
+                {activeTab === 3 && <Salary employee={employee} />}
+                {activeTab === 4 && <Documents />}
+                {activeTab === 5 && <Attendance />}
+                {activeTab === 6 && <Leave />}
+                {activeTab === 7 && <Perfomance />}
+            </div>
+        </div>
     );
 };
 
@@ -306,9 +378,9 @@ function Tablist({ activeTab, setActiveTab }) {
 function Overview({ employee }) {
 
     const personalInfo = [
-        { label: "Full Name", value: employee.name },
+        { label: "Full Name", value: `${employee.first_name} ${employee.last_name}` },
         { label: "Employee ID", value: employee.id },
-        { label: "Date of Birth", value: employee.dob },
+        { label: "Date of Birth", value: employee.date_of_birth },
         { label: "Gender", value: employee.gender },
     ];
 
@@ -316,7 +388,7 @@ function Overview({ employee }) {
         { label: "Email", value: employee.email },
         { label: "Phone", value: employee.phone },
         { label: "Location", value: employee.location },
-        { label: "Joining Date", value: employee.joiningDate },
+        { label: "Joining Date", value: employee.date_of_joining },
     ];
 
     return (
@@ -350,17 +422,17 @@ function Overview({ employee }) {
 function Jobs({ employee }) {
 
     const jobDetailsLeft = [
-        { label: "Department", value: employee.dept },
-        { label: "Designation", value: employee.role },
+        { label: "Department", value: employee.department },
+        { label: "Designation", value: employee.designation },
         { label: "Location", value: employee.location },
-        { label: "Reporting Manager", value: employee.rm },
+        { label: "Reporting Manager", value: employee.reporting_manager_name },
     ];
 
     const jobDetailsRight = [
         { label: "Email", value: employee.email },
         { label: "Phone", value: employee.phone },
         { label: "Location", value: employee.location },
-        { label: "Joining Date", value: employee.joiningDate },
+        { label: "Joining Date", value: employee.date_of_joining },
     ];
 
     return (

@@ -1,7 +1,8 @@
 import React from "react";
 import './employees.css';
+import axios from "axios";
 
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 // Icon imports
@@ -12,40 +13,56 @@ import { FaRegEdit } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiFilter } from "react-icons/fi";
 
+async function getEmployees() {
+  try {
+    const response = await axios.get("https://hrmsbackend-ej88.onrender.com/api/employees/", {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+    });
+    const employees = response.data;
+    return employees;
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+    return [];
+  }
+}
 
-const employees = [
-  { id: "EMP003", name: "Anita Desai", role: "Finance Lead", location: "Mumbai", dept: "Finance", status: "Active", avatar: "https://i.pravatar.cc/150?img=47" },
-  { id: "EMP006", name: "Arjun Mehta", role: "DevOps Engineer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=12" },
-  { id: "EMP007", name: "Kavya Reddy", role: "HR Executive", location: "Hyderabad", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=5" },
-  { id: "EMP001", name: "Priya Sharma", role: "HR Manager", location: "Chennai", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=65" },
-  { id: "EMP002", name: "Rahul Verma", role: "Senior Developer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=15" },
-  { id: "EMP008", name: "Rohan Kumar", role: "Accountant", location: "Chennai", dept: "Finance", status: "On Leave", avatar: "https://i.pravatar.cc/150?img=30" },
-  { id: "EMP005", name: "Sneha Patel", role: "Operations Manager", location: "Remote", dept: "Operations", status: "Active", avatar: "https://i.pravatar.cc/150?img=33" },
-  { id: "EMP004", name: "Vikram Singh", role: "Marketing Head", location: "Hyderabad", dept: "Marketing", status: "Active", avatar: "https://i.pravatar.cc/150?img=20" }
-];
-
+const fullName = (emp) =>
+        `${emp?.first_name || ""} ${emp?.last_name || ""}`.trim() || "-";
 function Employees() {
 
   const navigate = useNavigate();
 
-  const [employes, setEmployees] = useState(employees);
+  const [employes, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [sortOrder, setSortOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
 
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getEmployees();
+      setEmployees(data);
+    }
+    fetchData();
+  }, []);
+
   const filteredUsers = [...employes]
-    .filter((emp) =>
-      [emp.name, emp.id, emp.role, emp.dept, emp.location]
-        .join(" ")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
+    .filter((emp) => 
+      emp.first_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      emp.last_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      emp.email.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      emp.id.toString().includes(searchTerm.toLowerCase())
     )
-    .sort((a, b) =>
-      sortOrder === "asc"
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
-    );
+    // .sort((a,z)=>{
+    //   if (sortOrder === "asc") {
+    //     return a.name.localeCompare(z.name);
+    //   } else {
+    //     return z.name.localeCompare(a.name);
+    //   }
+    // })
 
   const handleSort = (e) => {
     setSortOrder(e.target.value);
@@ -198,7 +215,7 @@ function EmployeeGrid({ filteredUsers, selected, onSelectOne }) {
                   className="input" />
               </div>
               <div className="avatar-wrap">
-                <img src={emp.avatar} alt={emp.name} />
+                <img src={emp.avatar} alt={fullName(emp)} />
               </div>
               <div className="employee-info">
                 <h3 className="employee-name">{emp.name}</h3>
@@ -210,7 +227,7 @@ function EmployeeGrid({ filteredUsers, selected, onSelectOne }) {
             </div>
 
             <div className="badges">
-              <div className={`badge status-badge ${emp.status === "On Leave" ? "active-status" : " "}`}>
+              <div className={`badge status-badge ${emp.status === "ON_LEAVE" ? "active-status" : "status-badge "}`}>
                 {emp.status}</div>
               <div className="badge dept-badge">
                 {emp.dept}

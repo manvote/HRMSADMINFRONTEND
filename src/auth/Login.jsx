@@ -18,7 +18,7 @@ export default function Login() {
     });
 
     const data = res.data;
-    // console.log("Response data:", res.data.first_login);
+    console.log("Response data:", res.data);
     const { first_login } = data;
 
     if (first_login === true) {
@@ -28,6 +28,7 @@ export default function Login() {
       // onLogin();
     }
     else {
+      localStorage.setItem('access', data.access)
       navigate('/employee');
     }
   } catch (error) {
@@ -37,6 +38,7 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -92,6 +94,8 @@ export default function Login() {
                   Reset Password?
                 </a>
               </div>
+
+              <div className="">{message}</div>
 
               <button
                 type="submit"

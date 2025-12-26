@@ -228,7 +228,6 @@
 .badge {
   font-size: 12px;
   padding: 6px 10px;
-  border-radius: 20px;
   display: inline-block;
   border: 1px solid rgba(10, 61, 137, 0.08);
 }
@@ -237,6 +236,7 @@
   background: #0a53c0;
   color: #ffffff;
   font-weight: 400; 
+  border-radius: 40px;
   /* font:bold; */
 }
 .dept-badge {
