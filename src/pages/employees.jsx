@@ -28,52 +28,105 @@ function Employees() {
 
   const navigate = useNavigate();
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [employes, setEmployees] = useState(employees);
+  const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [selected, setSelected] = useState([]);
 
-  const filteredUsers = employees.filter((emp) => {
-    const lowerCaseTerm = searchTerm.toLowerCase();
-    return (
-      emp.name.toLowerCase().includes(lowerCaseTerm) ||
-      emp.id.toLowerCase().includes(lowerCaseTerm) ||
-      emp.role.toLowerCase().includes(lowerCaseTerm) ||
-      emp.dept.toLowerCase().includes(lowerCaseTerm) ||
-      emp.location.toLowerCase().includes(lowerCaseTerm)
+  const filteredUsers = [...employes]
+    .filter((emp) =>
+      [emp.name, emp.id, emp.role, emp.dept, emp.location]
+        .join(" ")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) =>
+      sortOrder === "asc"
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name)
     );
-  });
+
+  const handleSort = (e) => {
+    setSortOrder(e.target.value);
+  };
+
+  const handleSelectAll = (checked) => {
+    setSelected(checked ? filteredUsers.map(emp => emp.id) : []);
+  };
+
+  const handleSelectOne = (id) => {
+    setSelected(prev =>
+      prev.includes(id)
+        ? prev.filter(x => x !== id)
+        : [...prev, id]
+    );
+  };
+
+  // ☑️ Select Single Card
+  // const handleSelectOne = (id) => {
+  //   setSelected((prev) =>
+  //     prev.includes(id)
+  //       ? prev.filter((x) => x !== id)
+  //       : [...prev, id]
+  //   );
+  // };
+
+  // ☑️ Delete Selected
+  // const handleDeleteSelected = () => {
+  //   setEmployees((prev) => prev.filter((emp) => !selected.includes(emp.id)));
+  //   setSelected([]);
+  // };
+
   return (
     <>
       <div>
-          <div className="page-heading">
-            <div>
-              <h1 className="subhead">Employee Directory</h1>
-              <p className="subtitle">Manage and view all employee information</p>
-            </div>
-
-            <div className="top-actions">
-              <button className="ghost">Bulk Upload</button>
-              <button className="ghost">Export</button>
-              <button className="primary ghost-add" onClick={() => { navigate('/addEmployee') }}>Add Employee</button>
-            </div>
+        <div className="page-heading">
+          <div>
+            <h1 className="subhead">Employee Directory</h1>
+            <p className="subtitle">Manage and view all employee information</p>
           </div>
-          <div className="empcard">
-            <EmployeeCard
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              showFilters={showFilters}
-              setShowFilters={setShowFilters}
-            />
-            <EmployeeGrid
 
-              filteredUsers={filteredUsers}
-            />
+          <div className="top-actions">
+            <button className="ghost">Bulk Upload</button>
+            <button className="ghost">Export</button>
+            <button className="primary ghost-add" onClick={() => { navigate('/addEmployee') }}>Add Employee</button>
           </div>
         </div>
+        <div className="empcard">
+          <EmployeeCard
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            showFilters={showFilters}
+            setShowFilters={setShowFilters}
+            sortOrder={sortOrder}
+            onSort={handleSort}
+            onSelectAll={handleSelectAll}
+            selectedCount={selected.length}
+          // selectedCount={selected.length}
+          // onDelete={handleDeleteSelected}
+          />
+          <EmployeeGrid
+            selected={selected}
+            onSelectOne={handleSelectOne}
+            filteredUsers={filteredUsers}
+          />
+        </div>
+      </div>
     </>
   );
 }
 
-function EmployeeCard({ searchTerm, setSearchTerm, showFilters, setShowFilters }) {
+function EmployeeCard({
+  searchTerm,
+  setSearchTerm,
+  showFilters,
+  setShowFilters,
+  sortOrder,
+  onSort,
+  onSelectAll,
+  selectedCount        // ✅ select one handler
+}) {
 
   return (
     <div>
@@ -84,9 +137,9 @@ function EmployeeCard({ searchTerm, setSearchTerm, showFilters, setShowFilters }
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search employees by name, ID, or email..." />
         <div className="filter-actions">
-          <select className="sort-select">
-            <option>Name (A-Z)</option>
-            <option>Name (Z-A)</option>
+          <select className="sort-select" value={sortOrder} onChange={onSort}>
+            <option value="asc">Name (A–Z)</option>
+            <option value="desc">Name (Z–A)</option>
           </select>
 
           <button
@@ -96,7 +149,12 @@ function EmployeeCard({ searchTerm, setSearchTerm, showFilters, setShowFilters }
             <FiFilter />
           </button>
           <label className="selectall">
-            <input type="radio" className="input" /> Select All
+            <input
+              type="checkbox"
+              className="input"
+              checked={selectedCount > 0}
+              onChange={(e) => onSelectAll(e.target.checked)}
+            /> Select All
           </label>
         </div>
       </div>
@@ -122,7 +180,7 @@ function EmployeeCard({ searchTerm, setSearchTerm, showFilters, setShowFilters }
     </div>
   );
 }
-function EmployeeGrid({ filteredUsers }) {
+function EmployeeGrid({ filteredUsers, selected, onSelectOne }) {
   const navigate = useNavigate();
   return (
     <div className="employee-grid">
@@ -133,7 +191,11 @@ function EmployeeGrid({ filteredUsers }) {
           <div className="card-content">
             <div className="card-top">
               <div className="check-box">
-                <input type="radio" className="input" />
+                <input
+                  type="checkbox"
+                  checked={selected.includes(emp.id)}
+                  onChange={() => onSelectOne(emp.id)}
+                  className="input" />
               </div>
               <div className="avatar-wrap">
                 <img src={emp.avatar} alt={emp.name} />
@@ -154,11 +216,11 @@ function EmployeeGrid({ filteredUsers }) {
                 {emp.dept}
               </div>
             </div>
-            <div className="mt-3 d-flex">
+            <div className="employee-id">
               <p className="mb-2"><FiBriefcase className="icon1 align-center" /> <span className="id align-center">ID:<span className="ps-2">{emp.id}</span></span></p>
             </div>
             <div className="d-flex">
-               <p className="employee-location"><SlLocationPin className="icon1" /><span className="id ps-1">{emp.location}</span></p>
+              <p className="employee-location"><SlLocationPin className="icon1" /><span className="id ps-1">{emp.location}</span></p>
             </div>
             <div className="card-bottom">
               <button

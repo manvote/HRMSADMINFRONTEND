@@ -130,6 +130,12 @@
   border-radius: 8px;
 
 }
+.employee-id{
+  font-size: 14px;
+  color: #4b5563;
+  display: flex;
+  /* margin-top: 20px; */
+}
 
 .employee-div {
   background-color: #F5F8FF;

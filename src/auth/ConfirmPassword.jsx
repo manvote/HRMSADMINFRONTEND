@@ -8,7 +8,7 @@ export default function ConfirmPassword() {
   const BASE_URL = "https://hrmsbackend-ej88.onrender.com";
 
   async function password({oldPassword, newPassword, confirmPassword}){
-    const res = await fetch(`${BASE_URL}/api/change-password//`, {
+    const res = await fetch(`${BASE_URL}/api/reset-password/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
