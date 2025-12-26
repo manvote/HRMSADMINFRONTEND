@@ -50,47 +50,47 @@ const documents = [
 
 function AddEmployee() {
 
-    const [employees, setEmployees] = useState([]);
-    const [error, setError] = useState(null);
+    // const [employees, setEmployees] = useState([]);
+    // const [error, setError] = useState(null);
 
-    useEffect(() => {
-        Getemployees();
-    }, []);
+    // useEffect(() => {
+    //     Getemployees();
+    // }, []);
 
-    const Getemployees = async () => {
-        try {
-            const response = await axios.post('https://hrmsbackend-ej88.onrender.com/api/employees',
-                {
-                    name: response.name,
-                    email: email,
-                    phone: phone,
-                    gender: gender,
-                    dob: dob,
-                    department: department,
-                    designation: designation,
-                    employmentType: employmentType,
-                    joiningDate: joiningDate,
-                    location: location,
-                    reportingManager: reportingManager,
-                    ctc: ctc,
-                    basicPay: basicPay,
-                    allowances: allowances,
-                    deductions: deductions
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                }
-            );
-            setEmployees(response.data);
-            console.log("hi");
+    // const Getemployees = async () => {
+    //     try {
+    //         const response = await axios.post('https://hrmsbackend-ej88.onrender.com/api/employees',
+    //             {
+    //                 name: response.name,
+    //                 email: email,
+    //                 phone: phone,
+    //                 gender: gender,
+    //                 dob: dob,
+    //                 department: department,
+    //                 designation: designation,
+    //                 employmentType: employmentType,
+    //                 joiningDate: joiningDate,
+    //                 location: location,
+    //                 reportingManager: reportingManager,
+    //                 ctc: ctc,
+    //                 basicPay: basicPay,
+    //                 allowances: allowances,
+    //                 deductions: deductions
+    //             },
+    //             {
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${token}`,
+    //                 },
+    //             }
+    //         );
+    //         setEmployees(response.data);
+    //         console.log("hi");
 
-        } catch (error) {
-            setError(error);
-        }
-    };
+    //     } catch (error) {
+    //         setError(error);
+    //     }
+    // };
     return (
         <div className="edit-container">
             {/* Header */}

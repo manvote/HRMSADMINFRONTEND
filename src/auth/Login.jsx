@@ -1,42 +1,38 @@
 import "tailwindcss";
 
 import React, { useState } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import bgimage from '../assets/login-bg.jpg'
 import headicon from '../assets/login-head.png'
+import axios from "axios";
 
 export default function Login() {
 
   const BASE_URL = "https://hrmsbackend-ej88.onrender.com";
 
   async function login({email, password}) {
-    const res = await fetch(`${BASE_URL}/api/login/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
+    try {
+    const res = await axios.post(`${BASE_URL}/api/login/`, {
+      email,
+      password,
     });
 
-    const data = await res.json();
+    const data = res.data;
+    // console.log("Response data:", res.data.first_login);
+    const { first_login } = data;
 
-    // if (!res.ok) {
-    //   console.error("Login failed:", data);
-    //   return;
-    // }
-
-    console.log("Login success:", data);
-
-    if (res.status === 200) {
-      console.log("ok")
-      navigate('/confirmPassword', {
-        state: {
-          message: "Need to change password",
-          access: data.access || null,
-        },
-      });
+    if (first_login === true) {
+      localStorage.setItem('access', data.access)
+      console.log("Login success:", data);
+      navigate('/confirmPassword');
       // onLogin();
     }
+    else {
+      navigate('/employee');
+    }
+  } catch (error) {
+    console.error("An error occurred during login:", error);
+  }
   }
 
   const [email, setEmail] = useState("");
