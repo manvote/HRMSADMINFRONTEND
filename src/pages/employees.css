@@ -9,6 +9,9 @@
 .position {
   padding: 20px;
 }
+.emp-page{
+  background-color: #F5F8FF;
+}
 
 .page-heading {
   display: flex;
@@ -16,7 +19,7 @@
   align-items: center;
   margin-bottom: 18px;
   gap: 20px;
-  padding: 20px;  
+  padding: 20px;
 }
 .subhead{
   font-size: 30px;
@@ -134,7 +137,7 @@
   font-size: 14px;
   color: #4b5563;
   display: flex;
-  /* margin-top: 20px; */
+  margin-top: 20px;
 }
 
 .employee-div {
@@ -232,17 +235,18 @@
   border: 1px solid rgba(10, 61, 137, 0.08);
 }
 
-.status-badge {
+.badge.status-badge {
   background: #0a53c0;
   color: #ffffff;
   font-weight: 400; 
   border-radius: 40px;
   /* font:bold; */
 }
-.dept-badge {
+.badge.dept-badge {
   background: #f3f6ff;
   color: #163b7a;
   font-weight: 400; 
+  border-radius: 40px;
 }
 .card-content{
   padding: 25px;
@@ -251,6 +255,7 @@
   margin-right: 6px;
   font-size: 14px;
   color: rgba(102, 124, 153, 1);
+  display: inline-block;
 
   
 }

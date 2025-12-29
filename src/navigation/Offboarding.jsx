@@ -1,51 +1,129 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Offboarding.css";
 import {
-    FiCalendar,
-    FiAlertTriangle,
-    FiCheckCircle,
+  FiCalendar,
+  FiAlertTriangle,
+  FiCheckCircle,
 } from "react-icons/fi";
+import axios from "axios";
 
 //employee data
-const employees = [
-    { id: "EMP003", name: "Anita Desai", role: "Finance Lead", location: "Mumbai", dept: "Finance", status: "Active", avatar: "https://i.pravatar.cc/150?img=47" },
-    { id: "EMP006", name: "Arjun Mehta", role: "DevOps Engineer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=12" },
-    { id: "EMP007", name: "Kavya Reddy", role: "HR Executive", location: "Hyderabad", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=5" },
-    { id: "EMP001", name: "Priya Sharma", role: "HR Manager", location: "Chennai", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=65" },
-    { id: "EMP002", name: "Rahul Verma", role: "Senior Developer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=15" },
-    { id: "EMP008", name: "Rohan Kumar", role: "Accountant", location: "Chennai", dept: "Finance", status: "On Leave", avatar: "https://i.pravatar.cc/150?img=30" },
-    { id: "EMP005", name: "Sneha Patel", role: "Operations Manager", location: "Remote", dept: "Operations", status: "Active", avatar: "https://i.pravatar.cc/150?img=33" },
-    { id: "EMP004", name: "Vikram Singh", role: "Marketing Head", location: "Hyderabad", dept: "Marketing", status: "Active", avatar: "https://i.pravatar.cc/150?img=20" }
-];
 
 const checklist = [
-    "Laptop Returned",
-    "Access Cards Returned",
-    "Documents Submitted",
-    "No Dues Clearance",
-    "Knowledge Transfer Completed",
+  "Laptop Returned",
+  "Access Cards Returned",
+  "Documents Submitted",
+  "No Dues Clearance",
+  "Knowledge Transfer Completed",
 ];
 function Offboarding() {
 
-    const { id } = useParams();
-    const navigate = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    const employee = employees.find(emp => emp.id === id);
+  const [employee, setEmployee] = useState({});
 
-    if (!employee) {
-        return <p style={{ padding: 20 }}>Employee not found</p>;
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      try {
+        const response = await axios.get(
+          `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/`,
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("access")}`,
+            },
+          }
+        );
+        setEmployee({
+          ...response.data,
+          full_name: `${response.data.first_name || ""} ${response.data.last_name || ""}`.trim()
+        });
+        console.log("Employee Data:", response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchEmployee();
+  }, [id]);
+
+  // const [formData, setFormData] = useState({});
+  const [message, setMessage] = useState()
+  const [offbortardData, setOffboardData] = useState({
+    resignation_date: "",
+    last_working_day: "",
+    reason_for_exit: "",
+    additional_comments: "",
+  });
+
+  const acces = localStorage.getItem("access");
+
+  const handleChange = (e) => {
+    setOffboardData({
+      ...offbortardData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+
+    Object.keys(offbortardData).forEach((key) => {
+      data.append(key, offbortardData[key]);
+    });
+
+    try {
+      const response = await axios.post(
+        `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/offboarding/`,
+        data,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${acces}`,
+          },
+        }
+      );
+
+      console.log("Employee Created:", response.data);
+      setMessage("Employee added successfully!");
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+      alert("Failed to add employee");
     }
+  };
+
+  const DeactivateEmployee = async () => {
+    try {
+      await axios.post(
+        `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/deactivate/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${acces}`,
+          },
+        }
+      );
+      navigate("/employee");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (!employee) {
+    return <p style={{ padding: 20 }}>Employee not found</p>;
+  }
 
 
-    return (
+  return (
     <div className="offboard-page">
       {/* Header */}
       <div className="offboard-header">
         <p className="e1 mb-0">Employee Offboarding</p>
         <p className="e2 mb-0">
-          Process exit formalities for {employee.name}
+          Process exit formalities for {employee.full_name} (ID: {id})
         </p>
       </div>
 
@@ -54,14 +132,14 @@ function Offboarding() {
         <div className="left-column">
           {/* Employee Card */}
           <div className="card1 employee-card1">
-            <img src={employee.avatar} alt={employee.name} />
+            <img src={employee.avatar || "https://i.pravatar.cc/150"} alt="Employee Avatar" />
             <div>
-              <p className="e3 mb-0">{employee.name}</p>
+              <p className="e3 mb-0">{employee.full_name}</p>
               <p className="e3-subtext mb-0">
-                {employee.role} • {employee.dept}
+                {employee.designation} • {employee.department}
               </p>
               <span className="e3-subtext">
-                Joined: {employee.joined}
+                Joined: {employee.date_of_joining}
               </span>
             </div>
           </div>
@@ -72,11 +150,15 @@ function Offboarding() {
             <p className="settle-text">Resignation and last working day information</p>
 
             <div className="grid-2 mb-3">
-              <Input label="Resignation Date" type="date" />
-              <Input label="Last Working Day" type="date" />
+              <Input label="Resignation Date" type="date" value={offbortardData.resignation_date} handleChange={handleChange} />
+              <Input label="Last Working Day" type="date" value={offbortardData.last_working_day} handleChange={handleChange} />
             </div>
 
-            <Input label="Reason for Exit" type="select" />
+            <Input label="Reason for Exit"
+              type="select"
+              name="reason_for_exit"
+              value={offbortardData.reason_for_exit}
+              onChange={handleChange} />
 
             <textarea
               placeholder="Any additional comments or notes about the exit..."
@@ -99,7 +181,7 @@ function Offboarding() {
           </div>
 
           <div className="activate-button">
-            <button className="danger">Deactivate Employee</button>
+            <button className="danger" onClick={DeactivateEmployee}>Deactivate Employee</button>
             <button
               className="activate-cancel"
               onClick={() => navigate(-1)}
@@ -112,7 +194,7 @@ function Offboarding() {
         <div className="right-column">
           <div className="important-notice">
             <div className="warning">
-            <p className="warning-icon mb-0"><FiAlertTriangle /></p>
+              <p className="warning-icon mb-0"><FiAlertTriangle /></p>
               <p className="title-important mb-0">Important Notice</p>
             </div>
 
@@ -147,16 +229,26 @@ function Offboarding() {
 }
 
 
-function Input({ label, type }) {
+function Input({ label, type="text", name, value, onChange }) {
   return (
     <div className="form-group">
       <label>{label}</label>
+
       {type === "select" ? (
-        <select>
-          <option>Select reason</option>
+        <select name={name} value={value} onChange={onChange}>
+          <option value="">Select reason</option>
+          <option value="Resignation">Resignation</option>
+          <option value="Termination">Termination</option>
+          <option value="Retirement">Retirement</option>
+          <option value="Absconding">Absconding</option>
         </select>
       ) : (
-        <input type={type} />
+        <input
+          type={type}
+          name={name}
+          defaultValue={value}
+          onChange={onChange}
+        />
       )}
     </div>
   );

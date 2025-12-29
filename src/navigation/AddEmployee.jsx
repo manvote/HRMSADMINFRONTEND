@@ -12,7 +12,7 @@ import { LuTicket } from "react-icons/lu";
 import { LuUpload } from "react-icons/lu";
 
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 
 const personalFields = [
@@ -69,7 +69,7 @@ function AddEmployee() {
         allowances: "",
     });
 
-    const [error, setError] = useState(null);
+    const [employeeId, setEmployeeId] = useState(null);
     const [message, setMessage] = useState()
     const access = localStorage.getItem('access');
 
@@ -96,17 +96,75 @@ function AddEmployee() {
                 data,
                 {
                     headers: {
-                        Accept: "application/json",
+                        // Accept: "multipart/form-data",
                         Authorization: `Bearer ${access}`,
                     },
                 }
             );
-
+            setEmployeeId(response.data.id);
             console.log("Employee Created:", response.data);
             setMessage("Employee added successfully!");
         } catch (error) {
             console.error(error.response?.data || error.message);
             alert("Failed to add employee");
+        }
+    };
+
+    const [uploadedDocs, setUploadedDocs] = useState({});
+    const [uploading, setUploading] = useState(false);
+
+    const emp_id = employeeId;
+    const fileInputRef = useRef(null);
+    const [currentDocType, setCurrentDocType] = useState("");
+
+    const handleFileSelect = (docType) => {
+        if (!employeeId) {
+            alert("Please save employee details first");
+            return;
+        }
+        setCurrentDocType(docType);
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = async (e) => {
+
+        if (!employeeId) {
+            alert("Employee ID not found. Save employee first.");
+            return;
+        }
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const data = new FormData();
+        data.append("document_type", currentDocType);
+        data.append("file", file);
+
+        try {
+            setUploading(true);
+
+            await axios.post(
+                `https://hrmsbackend-ej88.onrender.com/api/employees/${emp_id}/documents/upload/`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${access}`,
+                    },
+                }
+            );
+
+            setUploadedDocs((prev) => ({
+                ...prev,
+                [currentDocType]: true,
+            }));
+            console.log("Document Uploaded", currentDocType);
+
+            alert(`${currentDocType} uploaded successfully`);
+        } catch (err) {
+            console.error(err.response?.data || err.message);
+            alert("Document upload failed");
+        } finally {
+            setUploading(false);
+            e.target.value = "";
         }
     };
 
@@ -153,13 +211,35 @@ function AddEmployee() {
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     {documents.map((doc, index) => (
-                        <div key={index} className="doc-box">
-                            <div className="upload-icon"><LuUpload /></div>
-                            {doc}
+                        <div
+                            key={index}
+                            className={`flex flex-col cursor-pointer border rounded-lg p-4 text-center ${uploadedDocs[doc] ? "border-green-500" : "border-dashed"}`}
+                            onClick={() => handleFileSelect(doc)}
+                        >
+                            <div className="upload-icon text-xl mb-2">
+                                <LuUpload />
+                            </div>
+
+                            <div className="text-sm font-medium">{doc}</div>
+
+                            {uploadedDocs[doc] && (
+                                <div className="text-green-600 text-xs mt-1">
+                                    Uploaded ✓
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
+
+                {/* Hidden file input */}
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    onChange={handleFileChange}
+                />
             </section>
+
 
             {/* Buttons */}
             <div className="py-2 text-[22px] font-bold text-green-700">{message}</div>
@@ -182,18 +262,18 @@ function AddEmployee() {
 };
 
 function Section({ title, children, icon }) {
-  return (
-    <section className="bg-white rounded-[10px] p-6 mb-6 shadow-[0_2px_10px_rgba(15,23,42,0.08)]">
-      <div className="flex items-center mb-4 gap-2">
-        {/* <span className="text-blue-600">{icon}</span> */}
-        <span className="text-[23px] font-bold">{title}</span>
-      </div>
-      <div><span className="text-[#667C99] text-[13px]">{}</span></div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {children}
-      </div>
-    </section>
-  );
+    return (
+        <section className="bg-white rounded-[10px] p-6 mb-6 shadow-[0_2px_10px_rgba(15,23,42,0.08)]">
+            <div className="flex items-center mb-4 gap-2">
+                {/* <span className="text-blue-600">{icon}</span> */}
+                <span className="text-[23px] font-bold">{title}</span>
+            </div>
+            <div><span className="text-[#667C99] text-[13px]">{ }</span></div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {children}
+            </div>
+        </section>
+    );
 }
 
 function Salary({ title, children, icon }) {

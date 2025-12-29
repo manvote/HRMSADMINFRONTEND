@@ -32,15 +32,18 @@
 
 .view1 {
   font-weight: 400;
-  font-style: Regular;
   font-size: 14px;
-  letter-spacing: 0%;
   vertical-align: middle;
   color: rgba(102, 124, 153, 1);
 }
 .view2{
   display: flex;
   align-items: center;
+  display: inline-block;
+}
+.phone-icon{
+  align-items: center;
+  display: inline-block;
 }
 
 .status {
@@ -135,6 +138,13 @@
 .tab-name {
   font-size: 14px;
   font-weight: 400;
+}
+.icon1{
+  font-size: 14px;
+  /* padding-right: 10px; */
+}
+.email_icon{
+  display: inline-block;
 }
 
 .tab-active {

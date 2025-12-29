@@ -14,12 +14,12 @@ import { GrDocumentText } from "react-icons/gr";
 import { LuUpload } from "react-icons/lu";
 
 const personalInfoFields = [
-  { label: "First Name", name: "first_name", valueKey: "first_name" },
+  { label: "Full Name", name: "full_name", valueKey: "full_name" },
   { label: "Employee ID", name: "employee_code", valueKey: "employee_code", disabled: true },
   { label: "Email", name: "email", valueKey: "email" },
   { label: "Phone", name: "phone", valueKey: "phone" },
   { label: "Gender", name: "gender", valueKey: "gender" },
-  { label: "Date of Birth", name: "dob", type: "date", valueKey: "dob" },
+  { label: "Date of Birth", name: "dob", type: "date", valueKey: "date_of_birth" },
 ];
 
 const employmentFields = [
@@ -31,10 +31,10 @@ const employmentFields = [
 
 
 const salaryFields = [
-  { label: "CTC (Annual)", type: "number",valueKey: "annual_ctc" },
-  { label: "Basic Pay (Monthly)", type: "number",valueKey: "basic_pay" },
-  { label: "Allowances (Monthly)", type: "number",valueKey: "allowances" },
-  { label: "Deductions (Monthly)", type: "number",valueKey: "deductions" },
+  { label: "CTC (Annual)", type: "number", valueKey: "annual_ctc" },
+  { label: "Basic Pay (Monthly)", type: "number", valueKey: "basic_pay" },
+  { label: "Allowances (Monthly)", type: "number", valueKey: "allowances" },
+  { label: "Deductions (Monthly)", type: "number", valueKey: "deductions" },
 ];
 
 const documents = [
@@ -57,22 +57,24 @@ function EditEmployee() {
     const fetchEmployee = async () => {
       try {
         const res = await axios.get(
-          `https://hrmsbackendej88.onrender.com/api/employees/${id}/`,
+          `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access")}`,
             },
           }
         );
-
         setFormData({
           ...res.data,
-          full_name: `${res.data.first_name || ""} ${res.data.last_name || ""}`.trim()
+          full_name: `${res.data.first_name || ""} ${res.data.last_name || ""}`.trim( ),
         });
+        console.log(res.data);
+
       } catch (err) {
         console.error(err);
         alert("Failed to load employee data");
-      } finally {
+      }
+      finally {
         setLoading(false);
       }
     };
@@ -88,11 +90,11 @@ function EditEmployee() {
   const handleSubmit = async () => {
     try {
       await axios.put(
-        `https://hrmsbackendej88.onrender.com/api/employees/${id}/update/`,
+        `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/update/`,
         formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
         }
@@ -145,7 +147,14 @@ function EditEmployee() {
         {/* Salary */}
         <Salary title="Salary & Compensation" icon={<LuWallet />}>
           {salaryFields.map((field, index) => (
-            <FormField key={index} {...field} onChange={handleChange}/>
+            <FormField
+              key={index}
+              label={field.label}
+              name={field.name}
+              type={field.type}
+              value={formData[field.valueKey] || ""}
+              onChange={handleChange}
+            />
           ))}
         </Salary>
 
@@ -159,8 +168,10 @@ function EditEmployee() {
           <div className="document-grid">
             {documents.map((doc, index) => (
               <div key={index} className="doc-box">
-                <div className="upload-icon"><LuUpload /></div>
-                {doc}
+                <div className="div-icon">
+                <p className="upload-icon"><LuUpload /></p>
+                  <p className="doc-title">{doc}</p>
+               </div>
               </div>
             ))}
           </div>

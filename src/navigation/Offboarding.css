@@ -82,6 +82,7 @@
 .textarea1 {
     margin-top: 12px;
     height: 80px;
+        background: rgba(245, 248, 255, 1);
 }
 
 .check-item {

@@ -23,26 +23,17 @@ import { FaRegCalendarMinus } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { IoKeyOutline } from "react-icons/io5";
 import { MdOutlinePersonAddDisabled } from "react-icons/md";
+import { MdMailOutline } from "react-icons/md";
+import { CiPhone } from "react-icons/ci";
 
 
-//employee data
-// const employees = [
-//     { id: "EMP003", name: "Anita Desai", role: "Finance Lead", location: "Mumbai", dept: "Finance", status: "Active", avatar: "https://i.pravatar.cc/150?img=47" },
-//     { id: "EMP006", name: "Arjun Mehta", role: "DevOps Engineer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=12" },
-//     { id: "EMP007", name: "Kavya Reddy", role: "HR Executive", location: "Hyderabad", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=5" },
-//     { id: "EMP001", name: "Priya Sharma", role: "HR Manager", location: "Chennai", dept: "HR", status: "Active", avatar: "https://i.pravatar.cc/150?img=65" },
-//     { id: "EMP002", name: "Rahul Verma", role: "Senior Developer", location: "Bangalore", dept: "Tech", status: "Active", avatar: "https://i.pravatar.cc/150?img=15" },
-//     { id: "EMP008", name: "Rohan Kumar", role: "Accountant", location: "Chennai", dept: "Finance", status: "On Leave", avatar: "https://i.pravatar.cc/150?img=30" },
-//     { id: "EMP005", name: "Sneha Patel", role: "Operations Manager", location: "Remote", dept: "Operations", status: "Active", avatar: "https://i.pravatar.cc/150?img=33" },
-//     { id: "EMP004", name: "Vikram Singh", role: "Marketing Head", location: "Hyderabad", dept: "Marketing", status: "Active", avatar: "https://i.pravatar.cc/150?img=20" }
-// ];
 
 //salary TAB
 const salaryCards = [
-    { label: "Annual CTC", value: "₹18,00,000", highlight: true },
-    { label: "Basic Pay", value: "₹75,000" },
-    { label: "Allowances", value: "₹25,000" },
-    { label: "Bonus", value: "₹50,000" },
+    { label: "Annual CTC", valueKey: "annual_ctc", highlight: true },
+    { label: "Basic Pay", valueKey: "basic_pay" },
+    { label: "Allowances", valueKey: "allowances" },
+    { label: "Bonus", valueKey: "bonus" },
 ];
 
 //Document TAB
@@ -306,17 +297,20 @@ function ViewEmployee() {
                     </div>
                     <div className="d-flex"> 
                         <p className="view1 mb-0">
-                        {employee.role || "-"}
+                        {employee.designation || "-"}
                     </p>
                     </div>
                     
                     <div className="view2">
                         <p className="view1 mb-0 pt-2">
-                        <SlLocationPin className="icon1" /> {employee.location || "-"}
-                        
-                            <FiBriefcase className="icon1" /> {employee.department || "-"}
-                       
+                        <FiBriefcase className="icon1 me-0" /> {employee.department || "-"}
+                        <span className="ms-3 "><SlLocationPin className="icon1 me-0" /> {employee.location || "-"}
+                        <MdMailOutline className="email_icon ms-3" /> {employee.email || "-"}
+                        </span>
                     </p>
+                    </div>
+                    <div className="mt-2">
+                        <p><CiPhone className="phone-icon" /> <span className="icon1">{employee.phone || "-"}</span></p>
                     </div>
                     
                 </div>
@@ -483,7 +477,7 @@ function Salary({ employee }) {
                             }`}
                     >
                         <p className="label">{item.label}</p>
-                        <h2 className="amount">{item.value}</h2>
+                        <h2 className="amount">{employee[item.valueKey] || ""}</h2>
                     </div>
                 ))}
             </div>

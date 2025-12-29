@@ -97,7 +97,7 @@ function Employees() {
 
   return (
     <>
-      <div>
+      <div className="emp-page">
         <div className="page-heading">
           <div>
             <h1 className="subhead">Employee Directory</h1>
@@ -215,11 +215,11 @@ function EmployeeGrid({ filteredUsers, selected, onSelectOne }) {
                   className="input" />
               </div>
               <div className="avatar-wrap">
-                <img src={emp.avatar} alt={fullName(emp)} />
+                <img src={emp.avatar || "https://i.pravatar.cc/150"}  />
               </div>
               <div className="employee-info">
-                <h3 className="employee-name">{emp.name}</h3>
-                <p className="employee-role">{emp.role}</p>
+                <h3 className="employee-name">{fullName(emp)}</h3>
+                <p className="employee-role">{emp.designation}</p>
               </div>
               <div className="d-flex ms-auto">
                 <BsThreeDotsVertical />
@@ -230,7 +230,7 @@ function EmployeeGrid({ filteredUsers, selected, onSelectOne }) {
               <div className={`badge status-badge ${emp.status === "ON_LEAVE" ? "active-status" : "status-badge "}`}>
                 {emp.status}</div>
               <div className="badge dept-badge">
-                {emp.dept}
+                {emp.department}
               </div>
             </div>
             <div className="employee-id">
