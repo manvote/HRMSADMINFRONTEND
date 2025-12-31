@@ -7,6 +7,11 @@ import ViewEmployee from './navigation/viewEmployee';
 import AddEmployee from './navigation/AddEmployee';
 import EditEmployee from './navigation/EditEmployee';
 import Offboarding from './navigation/Offboarding';
+import ProcessPayroll from './navigation/ProcessPayroll';
+import RunPayrollCalculation from './navigation/RunPayrollCalculation';
+import ConfirmPayrollProcess from './navigation/ConfirmPayrollProcess';
+
+
 import ConfirmPassword from './auth/ConfirmPassword';
 import Login from './auth/Login';
 import Document from "./pages/Document";

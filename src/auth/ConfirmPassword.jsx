@@ -1,38 +1,48 @@
-import 'tailwindcss';
-
 import React, { useState } from "react";
 import bgimage from '../assets/login-bg.jpg'
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ConfirmPassword() {
 
   const BASE_URL = "https://hrmsbackend-ej88.onrender.com";
 
-  async function password({oldPassword, newPassword, confirmPassword}){
-    const res = await fetch(`${BASE_URL}/api/change-password//`, {
-      method: "POST",
+  const access = localStorage.getItem('access');
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  async function password(){
+    try {
+    const res = await axios.post(`${BASE_URL}/api/reset-password/`, {
+      new_password: newPassword,
+    }, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${access}`,
       },
-      body: JSON.stringify({ 
-      old_password: oldPassword,
-      new_password: newPassword,
-      new_password_confirm: confirmPassword, }),
     });
 
-    console.log(await res.json())
+    console.log(res.data)
+    alert("Password changed successfully!");
+    navigate("/employee");
+
+  } catch (error) {
+    console.error("An error occurred during password reset:", error);
+  }
   }
 
-
-  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const { message, access } = location.state || {};
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();  // stop page refresh
-    password({oldPassword, newPassword, confirmPassword});
+    e.preventDefault(); // stop page refresh
+    console.log(access)
+    if (newPassword !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    password();
   };
 
   return (
@@ -46,16 +56,7 @@ export default function ConfirmPassword() {
 
             <form onSubmit={handleSubmit}>
               
-              <div className="mb-4 text-left">
-                <label className="text-sm font-ptsans font-normal">Old Password</label>
-                <input
-                  type="password"
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                  className="w-full mt-1 px-3 py-2 bg-white rounded text-black focus:outline-none"
-                  required
-                />
-              </div>
+              <h2 className="text-2xl font-bold pb-6">Change Your Password</h2>
 
               <div className="mb-4 text-left">
                 <label className="text-sm font-ptsans font-normal">New Password</label>
@@ -78,6 +79,8 @@ export default function ConfirmPassword() {
                   required
                 />
               </div>
+
+              <div className="text-black p-6">{message}</div>
 
               <button
                 type="submit"

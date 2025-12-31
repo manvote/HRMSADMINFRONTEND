@@ -1,9 +1,13 @@
+import { useNavigate } from "react-router-dom"
+import React from "react"
+
 import Export from "../assets/payroll-download.png"
 import Process from "../assets/payroll-process.png"
 import box1 from '../assets/payroll-box-1.png'
 import box2 from '../assets/payroll-box-2.png'
 import box3 from '../assets/payroll-box-3.png'
 import box4 from '../assets/payroll-box-4.png'
+import generate from '../assets/payroll-generate-slip.png'
 
 import {
   Chart as ChartJS,
@@ -60,6 +64,8 @@ export default function Payroll() {
     },
   }
 
+  const navigate = useNavigate(); 
+
   return (
     <div className="grid grid-cols-[256px 1fr] min-h-screen w-full">
       {/* <Navbar /> */}
@@ -78,7 +84,8 @@ export default function Payroll() {
               <img src={Export} alt="" className="w-4 h-4 mr-3" />
               <span className="text-[#00214D] text-[13px]">Export Payroll</span>
             </button>
-            <button className="bg-[#005DD6] flex h-[40px] w-[152px] shadow-md items-center justify-center rounded">
+            <button className="bg-[#005DD6] flex h-[40px] w-[152px] shadow-md items-center justify-center rounded"
+            onClick={ () => navigate('/processpayroll')}>
               <img src={Process} alt="" className="w-4 h-4 mr-3" />
               <span className="text-[13px] text-white">Process Payroll</span>
             </button>
@@ -154,7 +161,7 @@ export default function Payroll() {
         <div className="bg-[#FFFFFF] border-[#DBE1F0] border-[1px] w-full shadow-md rounded-lg p-6 mt-6">
           <span className="text-[23px] text-[#00214D] font-bold">Monthly CTC Report</span>
           <p className="text-[13px] text-[#667C99]">Total salary processed over time</p>
-          <div className="">
+          <div className="pt-2">
             <Line data={data} options={options} />
           </div>
         </div>
@@ -222,7 +229,8 @@ export default function Payroll() {
                 <span className="text-[14px] font-bold text-[#16A249]">16000</span>
               </div>
             </div>
-            <button className="bg-[#005DD6] w-full py-2 rounded text-white mt-4 shadow-lg">
+            <button className="bg-[#005DD6] w-full py-2 rounded text-white mt-4 shadow-lg flex justify-center items-center gap-3">
+              <img src={generate} alt="Generate Payslip" />
               <span className="text-[13px] text-[#FFFFFF]">Generate Payslip</span>
             </button>
           </div>
