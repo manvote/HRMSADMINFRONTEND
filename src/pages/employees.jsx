@@ -2,7 +2,7 @@ import React from "react";
 import './employees.css';
 import axios from "axios";
 
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Icon imports
@@ -13,24 +13,10 @@ import { FaRegEdit } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiFilter } from "react-icons/fi";
 
-async function getEmployees() {
-  try {
-    const response = await axios.get("https://hrmsbackend-ej88.onrender.com/api/employees/", {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-      },
-    });
-    const employees = response.data;
-    return employees;
-  } catch (error) {
-    console.error("Error fetching employees:", error);
-    return [];
-  }
-}
+
 
 const fullName = (emp) =>
-        `${emp?.first_name || ""} ${emp?.last_name || ""}`.trim() || "-";
+  `${emp?.first_name || ""} ${emp?.last_name || ""}`.trim() || "-";
 function Employees() {
 
   const navigate = useNavigate();
@@ -41,28 +27,58 @@ function Employees() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await getEmployees();
-      setEmployees(data);
+ useEffect(() => {
+  const fetchEmployees = async () => {
+    try {
+      const res = await axios.get(
+        "https://hrmsbackend-ej88.onrender.com/api/employees/",
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+        }
+      );
+      setEmployees(res.data);
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+      setEmployees([]);
     }
-    fetchData();
-  }, []);
+  };
 
-  const filteredUsers = [...employes]
-    .filter((emp) => 
-      emp.first_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      emp.last_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      emp.email.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      emp.id.toString().includes(searchTerm.toLowerCase())
-    )
-    // .sort((a,z)=>{
-    //   if (sortOrder === "asc") {
-    //     return a.name.localeCompare(z.name);
-    //   } else {
-    //     return z.name.localeCompare(a.name);
-    //   }
-    // })
+  fetchEmployees();
+}, []);
+
+
+  const term = (searchTerm || "").toLowerCase();
+
+  const filteredUsers = employes.filter((emp) => {
+    return (
+      (emp.first_name ?? "").toLowerCase().includes(term) ||
+      (emp.last_name ?? "").toLowerCase().includes(term) ||
+      (emp.email ?? "").toLowerCase().includes(term) ||
+      emp.id?.toString().includes(term)
+    );
+  });
+
+  // .sort((a,z)=>{
+  //   if (sortOrder === "asc") {
+  //     return a.name.localeCompare(z.name);
+  //   } else {
+  //     return z.name.localeCompare(a.name);
+  //   }
+  // })
+
+  const [department, setDepartment] = useState("ALL");
+  const [location, setLocation] = useState("ALL");
+  const [status, setStatus] = useState("ALL");
+
+  const quickFilter = employes.filter((emp) => {
+    return (
+      (department === "ALL" || emp.department === department) &&
+      (location === "ALL" || emp.location === location) &&
+      (status === "ALL" || emp.status === status));
+  });
 
   const handleSort = (e) => {
     setSortOrder(e.target.value);
@@ -179,16 +195,16 @@ function EmployeeCard({
         {showFilters && (
           <div className="quick-filters">
             <p className="mb-0 ps-4">Quick Filter :</p>
-            <select className="quick-select">
-              <option>All Department</option>
+            <select className="quick-select" onChange={(e) => setDepartment(e.target.value)}>
+              <option value="ALL">All Department</option>
               <option>Department</option>
             </select>
-            <select className="qick-select">
-              <option>All Location</option>
+            <select className="qick-select" onChange={(e) => setLocation(e.target.value)}>
+              <option value="ALL">All Location</option>
               <option>Department</option>
             </select>
-            <select className="quick-select">
-              <option>All Status</option>
+            <select className="quick-select" onChange={(e) => setStatus(e.target.value)}>
+              <option value="ALL">All Status</option>
               <option>Status</option>
             </select>
           </div>
@@ -215,7 +231,7 @@ function EmployeeGrid({ filteredUsers, selected, onSelectOne }) {
                   className="input" />
               </div>
               <div className="avatar-wrap">
-                <img src={emp.avatar || "https://i.pravatar.cc/150"}  />
+                <img src={emp.avatar || "https://i.pravatar.cc/150"} />
               </div>
               <div className="employee-info">
                 <h3 className="employee-name">{fullName(emp)}</h3>

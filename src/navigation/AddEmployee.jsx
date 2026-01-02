@@ -13,6 +13,7 @@ import { LuUpload } from "react-icons/lu";
 
 
 import { useState, useRef } from "react";
+import { resume } from "react-dom/server";
 
 
 const personalFields = [
@@ -26,7 +27,7 @@ const personalFields = [
 ];
 
 const employmentFields = [
-    { label: "Department", type: "select", options: ["IT", "HR", "Finance", "Operations"], required: true, name: "department" },
+    { label: "Department", type: "select", options: ["IT", "HR", "Finance", "Operations"], name: "department" },
     { label: "Designation", type: "text", required: true, name: "designation" },
     { label: "Employment Type", type: "select", options: ["FULL_TIME", "CONTRACT"], name: "employee_type" },
     { label: "Date of Joining", type: "date", required: true, name: "date_of_joining" },
@@ -42,10 +43,10 @@ const salaryFields = [
 ];
 
 const documents = [
-    "Resume / CV",
-    "ID Proof",
-    "Offer Letter",
-    "Experience Certificate",
+    "resume",
+    "id_proof",
+    "offer_letter",
+    "experience",
 ];
 
 function AddEmployee() {
@@ -67,111 +68,74 @@ function AddEmployee() {
         annual_ctc: "",
         basic_pay: "",
         allowances: "",
+        photo: "",
+        resume: "",
+        bonus: "",
+        id_proof: "",
+        offer_letter: "",
+        experience: "",
     });
 
-    const [employeeId, setEmployeeId] = useState(null);
-    const [message, setMessage] = useState()
+    const [uploading, setUploading] = useState(false);
+    const [currentDocType, setCurrentDocType] = useState("");
+    const fileInputRef = useRef(null);
     const access = localStorage.getItem('access');
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const data = new FormData();
-
-        Object.keys(formData).forEach((key) => {
-            data.append(key, formData[key]);
-        });
-
-        try {
-            const response = await axios.post(
-                "https://hrmsbackend-ej88.onrender.com/api/employees/",
-                data,
-                {
-                    headers: {
-                        // Accept: "multipart/form-data",
-                        Authorization: `Bearer ${access}`,
-                    },
-                }
-            );
-            setEmployeeId(response.data.id);
-            console.log("Employee Created:", response.data);
-            setMessage("Employee added successfully!");
-        } catch (error) {
-            console.error(error.response?.data || error.message);
-            alert("Failed to add employee");
-        }
-    };
-
-    const [uploadedDocs, setUploadedDocs] = useState({});
-    const [uploading, setUploading] = useState(false);
-
-    const emp_id = employeeId;
-    const fileInputRef = useRef(null);
-    const [currentDocType, setCurrentDocType] = useState("");
-
-    const handleFileSelect = (docType) => {
-        if (!employeeId) {
-            alert("Please save employee details first");
-            return;
-        }
+    const handleFileClick = (docType) => {
         setCurrentDocType(docType);
         fileInputRef.current.click();
     };
 
-    const handleFileChange = async (e) => {
-
-        if (!employeeId) {
-            alert("Employee ID not found. Save employee first.");
-            return;
-        }
+    const handleFileChange = (e) => {
         const file = e.target.files[0];
-        if (!file) return;
+        if (file) {
+            setFormData({ ...formData, [currentDocType]: file });
+        }
+    };
 
-        const data = new FormData();
-        data.append("document_type", currentDocType);
-        data.append("file", file);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setUploading(true);
 
         try {
-            setUploading(true);
+            const data = new FormData();
+            
+            // Append all data to FormData
+            Object.keys(formData).forEach((key) => {
+                if (formData[key] !== null && formData[key] !== "") {
+                    data.append(key, formData[key]);
+                }
+            });
 
             await axios.post(
-                `https://hrmsbackend-ej88.onrender.com/api/employees/${emp_id}/documents/upload/`,
+                `https://hrmsbackend-ej88.onrender.com/api/employees/`,
                 data,
                 {
                     headers: {
                         Authorization: `Bearer ${access}`,
+                        "Content-Type": "multipart/form-data",
                     },
                 }
             );
-
-            setUploadedDocs((prev) => ({
-                ...prev,
-                [currentDocType]: true,
-            }));
-            console.log("Document Uploaded", currentDocType);
-
-            alert(`${currentDocType} uploaded successfully`);
-        } catch (err) {
-            console.error(err.response?.data || err.message);
-            alert("Document upload failed");
+            console.log("Employee added successfully", formData);
+            alert("Employee added successfully!");
+        } catch (error) {
+            console.error("Upload Error:", error.response?.data);
+            alert("Error: " + JSON.stringify(error.response?.data || "Server Error"));
         } finally {
             setUploading(false);
-            e.target.value = "";
         }
     };
 
+
     return (
-        <div className="min-h-screen bg-[#F5F8FF] p-6 justify-center">
+        <div className="min-h-screen bg-[#F5F8FF] justify-center ">
             {/* Header */}
-            <div className="text-[23px] font-bold text-[#00214D] ">
+            <div className="text-[23px] font-bold text-[#00214D] p-6">
                 <span>Add Employee Information</span>
             </div>
 
@@ -213,8 +177,9 @@ function AddEmployee() {
                     {documents.map((doc, index) => (
                         <div
                             key={index}
-                            className={`flex flex-col cursor-pointer border rounded-lg p-4 text-center ${uploadedDocs[doc] ? "border-green-500" : "border-dashed"}`}
-                            onClick={() => handleFileSelect(doc)}
+                            className={`flex flex-col cursor-pointer border rounded-lg p-4 text-center ${formData[doc] ? "border-green-500" : "border-dashed"}`}
+                            onClick={() => handleFileClick(doc)}
+                            // value={formData[doc]}
                         >
                             <div className="upload-icon text-xl mb-2">
                                 <LuUpload />
@@ -222,7 +187,7 @@ function AddEmployee() {
 
                             <div className="text-sm font-medium">{doc}</div>
 
-                            {uploadedDocs[doc] && (
+                            {formData[doc] && (
                                 <div className="text-green-600 text-xs mt-1">
                                     Uploaded ✓
                                 </div>
@@ -230,8 +195,6 @@ function AddEmployee() {
                         </div>
                     ))}
                 </div>
-
-                {/* Hidden file input */}
                 <input
                     type="file"
                     ref={fileInputRef}
@@ -239,10 +202,6 @@ function AddEmployee() {
                     onChange={handleFileChange}
                 />
             </section>
-
-
-            {/* Buttons */}
-            <div className="py-2 text-[22px] font-bold text-green-700">{message}</div>
 
             <div className="flex flex-col md:flex-row gap-3 mt-4">
                 <button

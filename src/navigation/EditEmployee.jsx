@@ -1,7 +1,7 @@
 import React from "react";
 import "../pages/employees.jsx"
 import { useParams } from "react-router-dom";
-import "./AddEmployee.css";
+import "./EditEmployee.css";
 import axios from "axios";
 
 import { useState, useEffect } from "react";
@@ -14,7 +14,8 @@ import { GrDocumentText } from "react-icons/gr";
 import { LuUpload } from "react-icons/lu";
 
 const personalInfoFields = [
-  { label: "Full Name", name: "full_name", valueKey: "full_name" },
+  { label: "First Name", name: "first_name", valueKey: "first_name" },
+  { label: "Last Name", name: "last_name", valueKey: "last_name" },
   { label: "Employee ID", name: "employee_code", valueKey: "employee_code", disabled: true },
   { label: "Email", name: "email", valueKey: "email" },
   { label: "Phone", name: "phone", valueKey: "phone" },
@@ -50,6 +51,7 @@ function EditEmployee() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [emp_id, setEmployeeID] = useState(id);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -64,10 +66,8 @@ function EditEmployee() {
             },
           }
         );
-        setFormData({
-          ...res.data,
-          full_name: `${res.data.first_name || ""} ${res.data.last_name || ""}`.trim( ),
-        });
+        setFormData(res.data);
+        setEmployeeID(res.data.employee_code);
         console.log(res.data);
 
       } catch (err) {
@@ -90,7 +90,7 @@ function EditEmployee() {
   const handleSubmit = async () => {
     try {
       await axios.put(
-        `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/update/`,
+        `https://hrmsbackend-ej88.onrender.com/api/employees/${emp_id}/documents/`,
         formData,
         {
           headers: {
@@ -99,9 +99,9 @@ function EditEmployee() {
           },
         }
       );
-
       alert("Employee updated successfully");
       navigate(`/viewEmployee/${id}`);
+
     } catch (err) {
       console.error(err);
       alert("Update failed");
@@ -171,6 +171,7 @@ function EditEmployee() {
                 <div className="div-icon">
                 <p className="upload-icon"><LuUpload /></p>
                   <p className="doc-title">{doc}</p>
+                
                </div>
               </div>
             ))}

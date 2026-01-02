@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 import "../pages/employees.jsx"
 import { useParams } from "react-router-dom";
 import "./viewEmployee.css";
@@ -230,6 +230,7 @@ function ViewEmployee() {
     const navigate = useNavigate();
 
     const [employee, setEmployee] = useState(null);
+    const [employeeID, setEmployeeID] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -248,7 +249,11 @@ function ViewEmployee() {
                     }
                 );
 
+                console.log(response.data); 
                 setEmployee(response.data);
+                if (response.data && response.data.employee_code) {
+                    setEmployeeID(response.data.employee_code);
+                }
             } catch (err) {
                 console.error(err);
                 setError("Failed to load employee details");
@@ -259,6 +264,28 @@ function ViewEmployee() {
 
         fetchEmployee();
     }, [id]);
+
+    useEffect(() => {
+
+        if (!employeeID) return;    
+        const handledocuments = async () => {
+            try {
+                const response = await axios.get(
+                    `https://hrmsbackend-ej88.onrender.com/api/employees/${employeeID}/documents/`,
+                    {
+                        headers: {
+                            Accept: "application/json",
+                            Authorization: `Bearer ${localStorage.getItem("access")}`,
+                        },
+                    }
+                );
+                console.log(response.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        handledocuments();
+    }, [employeeID]);
 
     if (loading) {
         return <div className="text-center p-5">Loading employee...</div>;
@@ -271,8 +298,7 @@ function ViewEmployee() {
     if (!employee) {
         return <div className="text-center p-5">Employee not found</div>;
     }
-    const fullName = (emp) =>
-        `${emp?.first_name || ""} ${emp?.last_name || ""}`.trim() || "-";
+
     
     return (
         <div className="view-container">
@@ -286,7 +312,7 @@ function ViewEmployee() {
 
                 <div className="view-content">
                     <div className="view-name d-flex m-0">
-                        {fullName(employee)}
+                        {`${employee.first_name} ${employee.last_name}` || "N/A"}
                         <span className="mt-2">
                             <div className="status-div">
                                 <p className="status mb-0">
@@ -347,7 +373,7 @@ function ViewEmployee() {
                 {activeTab === 1 && <Overview employee={employee} />}
                 {activeTab === 2 && <Jobs employee={employee} />}
                 {activeTab === 3 && <Salary employee={employee} />}
-                {activeTab === 4 && <Documents />}
+                {activeTab === 4 && <Documents employee={employee} />}
                 {activeTab === 5 && <Attendance />}
                 {activeTab === 6 && <Leave />}
                 {activeTab === 7 && <Perfomance />}
@@ -490,7 +516,7 @@ function Salary({ employee }) {
     );
 };
 
-function Documents() {
+function Documents({ employee }) {
     return (
         <div className="salary-doc-wrapper">
             <div className="salary-doc-header">
