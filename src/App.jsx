@@ -14,12 +14,11 @@ import ConfirmPayrollProcess from './navigation/ConfirmPayrollProcess';
 
 import ConfirmPassword from './auth/ConfirmPassword';
 import Login from './auth/Login';
-import Document from "./pages/Document";
 
 // import './index.css';
 import { Route, Routes } from 'react-router-dom';
-import './index.css';
 import './App.css';
+import './index.css';
 
 function App() {
   return (
@@ -36,13 +35,12 @@ function App() {
           <Route path="/editEmployee/:id" element={<EditEmployee />} />
           <Route path="/offboarding/:id" element={<Offboarding />} />
           <Route path="/payroll" element={<Payroll />} />
-          <Route path="/document" element={<Document />} />
-        
-
-          
+          <Route path="/processPayroll" element={<ProcessPayroll />} />
+          <Route path="/runPayrollCalculation" element={<RunPayrollCalculation />} />
+          <Route path="/confirmPayrollProcess" element={<ConfirmPayrollProcess />} />
         </Route>
 
-      </Routes> 
+      </Routes>
       
     </>
   );
