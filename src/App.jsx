@@ -1,6 +1,7 @@
 import Employees from './pages/employees'
 import MainLayout from './MainLayout';
 import Payroll from './pages/Payroll';
+import Leave from './pages/Leave';
 
 //Navigation
 import ViewEmployee from './navigation/viewEmployee';
@@ -38,6 +39,7 @@ function App() {
           <Route path="/processPayroll" element={<ProcessPayroll />} />
           <Route path="/runPayrollCalculation" element={<RunPayrollCalculation />} />
           <Route path="/confirmPayrollProcess" element={<ConfirmPayrollProcess />} />
+          <Route path="/leave" element={<Leave />} />
         </Route>
 
       </Routes>
