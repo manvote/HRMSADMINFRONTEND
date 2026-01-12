@@ -230,7 +230,7 @@ function ViewEmployee() {
     const navigate = useNavigate();
 
     const [employee, setEmployee] = useState(null);
-    const [employeeID, setEmployeeID] = useState(null);
+    const [emp_id, setEmployeeID] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -267,11 +267,11 @@ function ViewEmployee() {
 
     useEffect(() => {
 
-        if (!employeeID) return;    
+        if (!emp_id) return;    
         const handledocuments = async () => {
             try {
                 const response = await axios.get(
-                    `https://hrmsbackend-ej88.onrender.com/api/employees/${employeeID}/documents/`,
+                    `https://hrmsbackend-ej88.onrender.com/api/employees/${emp_id}/documents/`,
                     {
                         headers: {
                             Accept: "application/json",
@@ -285,7 +285,7 @@ function ViewEmployee() {
             }
         };
         handledocuments();
-    }, [employeeID]);
+    }, [emp_id]);
 
     if (loading) {
         return <div className="text-center p-5">Loading employee...</div>;

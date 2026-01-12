@@ -6,7 +6,6 @@ import axios from "axios";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-//import icon
 import { IoPersonOutline } from "react-icons/io5";
 import { FiBriefcase } from "react-icons/fi";
 import { LuWallet } from "react-icons/lu";
@@ -38,7 +37,7 @@ const salaryFields = [
   { label: "Deductions (Monthly)", type: "number", valueKey: "deductions" },
 ];
 
-const documents = [
+const Documents = [
   "Resume / CV",
   "ID Proof",
   "Offer Letter",
@@ -50,37 +49,47 @@ function EditEmployee() {
 
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const [emp_id, setEmployeeID] = useState(id);
   const [formData, setFormData] = useState({});
+  const [employeeID, setEmployeeID] = useState("");
+  const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchEmployee = async () => {
+    const fetchEmployeeAndDocs = async () => {
       try {
-        const res = await axios.get(
-          `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access")}`,
-            },
-          }
-        );
-        setFormData(res.data);
-        setEmployeeID(res.data.employee_code);
-        console.log(res.data);
+        setLoading(true);
 
-      } catch (err) {
+        const token = localStorage.getItem("access");
+        const [employeeRes, documentsRes] = await Promise.all([
+          axios.get(
+            `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/`,
+            { headers: { Authorization: `Bearer ${token}`, }, }
+          ),
+          axios.get(
+            `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/documents/`,
+            { headers: { Authorization: `Bearer ${token}`, }, }
+          ),
+        ]);
+        setFormData(employeeRes.data);
+        setEmployeeID(employeeRes.data.employee_code);
+        setDocuments(documentsRes.data.documents);
+        console.log("Employee:", employeeRes.data);
+        console.log("Documents:", documentsRes.data);
+      }
+      catch (err) {
         console.error(err);
-        alert("Failed to load employee data");
+        alert("Failed to load employee data or documents");
       }
       finally {
         setLoading(false);
       }
     };
 
-    fetchEmployee();
+    if (id) {
+      fetchEmployeeAndDocs();
+    }
   }, [id]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,10 +99,9 @@ function EditEmployee() {
   const handleSubmit = async () => {
     try {
       await axios.put(
-        `https://hrmsbackend-ej88.onrender.com/api/employees/${emp_id}/documents/`,
+        `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/update/`,
         formData,
-        {
-          headers: {
+        { headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("access")}`,
           },
@@ -102,7 +110,8 @@ function EditEmployee() {
       alert("Employee updated successfully");
       navigate(`/viewEmployee/${id}`);
 
-    } catch (err) {
+    }
+    catch (err) {
       console.error(err);
       alert("Update failed");
     }
@@ -113,7 +122,6 @@ function EditEmployee() {
   return (
     <>
       <div className="edit-container">
-        {/* Header */}
         <div className="edit-header">
           <h2>Edit Employee Information</h2>
         </div>
@@ -144,7 +152,6 @@ function EditEmployee() {
           ))}
         </Section>
 
-        {/* Salary */}
         <Salary title="Salary & Compensation" icon={<LuWallet />}>
           {salaryFields.map((field, index) => (
             <FormField
@@ -158,7 +165,6 @@ function EditEmployee() {
           ))}
         </Salary>
 
-        {/* Documents */}
         <section className="card">
           <div className="d-flex mb-3">
             <p className="mb-1 icon"><GrDocumentText /></p>
@@ -166,19 +172,31 @@ function EditEmployee() {
           </div>
 
           <div className="document-grid">
-            {documents.map((doc, index) => (
-              <div key={index} className="doc-box">
-                <div className="div-icon">
-                <p className="upload-icon"><LuUpload /></p>
-                  <p className="doc-title">{doc}</p>
-                
-               </div>
-              </div>
-            ))}
+            {documents.length > 0 ? (
+              documents.map((doc, index) => (
+                <div key={index} className="doc-box">
+                  <div className="div-icon">
+                    <p className="upload-icon"><LuUpload /></p>
+                    <p className="doc-title">{doc.document_type}</p>
+                    <p className="doc-title">{doc.file}</p>
+
+                  </div>
+                </div>
+              ))
+            ) : (
+              Documents.map((doc, index) => (
+                <div key={index} className="doc-box">
+                  <div className="div-icon">
+                    <p className="upload-icon"><LuUpload /></p>
+                    <p className="doc-title">{doc}</p>
+
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </section>
 
-        {/* Buttons */}
         <div className="action-buttons">
           <button className="btn-primary" onClick={handleSubmit}>Save Changes</button>
           <button className="btn-secondary">Discard</button>
@@ -189,7 +207,7 @@ function EditEmployee() {
 
 };
 
-function Section({ title, employee, children, icon }) {
+function Section({ title, children, icon }) {
   return (
     <section className="card">
       <div className="d-flex mb-3">

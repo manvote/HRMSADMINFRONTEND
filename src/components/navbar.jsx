@@ -29,13 +29,14 @@ function Navbar() {
     { name: "Payroll", icon: <LuWallet />, path: "/payroll" },
     { name: "Performance", icon: <GrDocumentPerformance />, path:"/perfomance"},
     { name: "Recruitment", icon: <FiBriefcase />, path:"/recuritments" },
-    {name: "Documents",icon: <GrDocumentText />, path:"/documents"},
+    {name: "Documents",icon: <GrDocumentText />, path:"/document"},
     {name: "Tickets" ,icon:<LuTicket />, path:"/tickets"},
     {name: "Reports", icon : <FaRegChartBar />, path:"/reports"},
     {name: "Settings", icon : <IoSettingsOutline />, path:"/settings"}
   ];
 
-  const [Active, SetActive]= useState()
+  const [Active, SetActive]= useState();
+  
   return (
 
     <>

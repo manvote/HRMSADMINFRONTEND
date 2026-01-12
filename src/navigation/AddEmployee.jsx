@@ -57,7 +57,7 @@ function AddEmployee() {
         last_name: "",
         email: "",
         phone: "",
-        gender: "MALE",
+        gender: "",
         date_of_birth: "",
         department: "",
         designation: "",
@@ -103,8 +103,7 @@ function AddEmployee() {
 
         try {
             const data = new FormData();
-            
-            // Append all data to FormData
+        
             Object.keys(formData).forEach((key) => {
                 if (formData[key] !== null && formData[key] !== "") {
                     data.append(key, formData[key]);
@@ -139,7 +138,6 @@ function AddEmployee() {
                 <span>Add Employee Information</span>
             </div>
 
-            {/* Personal Info */}
             <Section title="Personal Information" icon={<IoPersonOutline />}>
                 {personalFields.map((field, index) => (
                     <FormField
@@ -152,21 +150,18 @@ function AddEmployee() {
                 ))}
             </Section>
 
-            {/* Employment Details */}
             <Section title="Employment Details" icon={<FiBriefcase />}>
                 {employmentFields.map((field, index) => (
                     <FormField key={index} {...field} onChange={handleChange} value={formData[field.name]} />
                 ))}
             </Section>
 
-            {/* Salary */}
             <Salary title="Salary & Compensation" icon={<LuWallet />}>
                 {salaryFields.map((field, index) => (
                     <FormField key={index} {...field} onChange={handleChange} value={formData[field.name]} />
                 ))}
             </Salary>
 
-            {/* Documents */}
             <section className="bg-white rounded-[10px] p-5 mb-6 shadow-[0_2px_10px_rgba(15,23,42,0.08)]">
                 <div className="flex items-center mb-4 gap-2">
                     <span className="mb-1 icon"><GrDocumentText /></span>

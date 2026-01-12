@@ -10,30 +10,30 @@ export default function Login() {
 
   const BASE_URL = "https://hrmsbackend-ej88.onrender.com";
 
-  async function login({email, password}) {
+  async function login({ email, password }) {
     try {
-    const res = await axios.post(`${BASE_URL}/api/login/`, {
-      email,
-      password,
-    });
+      const res = await axios.post(`${BASE_URL}/api/login/`, {
+        email,
+        password,
+      });
 
-    const data = res.data;
-    console.log("Response data:", res.data);
-    const { first_login } = data;
+      const data = res.data;
+      console.log("Response data:", res.data);
+      const { first_login } = data;
 
-    if (first_login === true) {
-      localStorage.setItem('access', data.access)
-      console.log("Login success:", data);
-      navigate('/confirmPassword');
-      // onLogin();
+      if (first_login === true) {
+        localStorage.setItem('access', data.access)
+        console.log("Login success:", data);
+        navigate('/confirmPassword');
+      }
+      
+      else {
+        localStorage.setItem('access', data.access)
+        navigate('/employee');
+      }
+    } catch (error) {
+      console.error("An error occurred during login:", error);
     }
-    else {
-      localStorage.setItem('access', data.access)
-      navigate('/employee');
-    }
-  } catch (error) {
-    console.error("An error occurred during login:", error);
-  }
   }
 
   const [email, setEmail] = useState("");
@@ -42,7 +42,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();  // stop page refresh
+    e.preventDefault(); 
     login({ email, password });
   };
 
@@ -62,7 +62,7 @@ export default function Login() {
             <p className="text-white mb-6">Login to your account.</p>
 
             <form onSubmit={handleSubmit}>
-              
+
               <div className="mb-4 text-left">
                 <label className="text-sm font-ptsans font-normal">E-mail Address</label>
                 <input

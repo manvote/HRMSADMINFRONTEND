@@ -13,11 +13,9 @@ export default function RunPayrollCalculation() {
     return (
         <div className="px-6 py-3 bg-[#F5F8FF] justify-center">
             <span className="text-[#667C99] text-[13px]">Payroll {" > "}<span>Process Payroll {" > "}</span><span className="text-[#00214D] text-[13.5px]">Run Payroll Calculation</span></span>
-
             <div className="mt-2">
                 <span className="text-[#0F1729] text-[30px] font-bold">Run Payroll Calculation</span>
             </div>
-
             <div className="grid grid-cols-4 gap-6">
                 {[
                     { label: 'Total Employees Included', value: '156', icon: TE },
@@ -38,9 +36,7 @@ export default function RunPayrollCalculation() {
                     </div>
                 ))
                 }
-
             </div>
-
             <div className="bg-[#FFFFFF] rounded-lg shadow-md p-6 mt-6">
                 <span className="text-[#0F1729] text-[18px] font-bold">Calculation Breakdown</span>
                 <table className="w-full mt-4 table-auto">
@@ -82,12 +78,10 @@ export default function RunPayrollCalculation() {
                                 </td>
                             </tr>
                             </div>
-                        ))
-                        }
+                        ))}
                     </tbody>
                 </table>
             </div>
-
             <div className='bg-[#FFFFFF] rounded-lg shadow-md mt-6 p-6'>
                 <span className='text-[18px] text-[#0F1729] font-bold'>Validation Messages</span>
                 <div className='bg-[#EF43431A] border-[#EF43431A] border-[1px] rounded-md mt-4 flex items-center gap-2 py-4 px-5'>
@@ -99,7 +93,6 @@ export default function RunPayrollCalculation() {
                     <span className='text-[#00214D] text-[16px] font-medium'>Info: Payroll tax rates have been updated as of this month.</span>
                 </div>
             </div>
-
             <div className='mt-6'>
                 <button className="bg-[#005DD6] py-2.5 px-6 rounded mt-6 shadow-lg mb-6 flex items-center gap-2"
                 onClick={() => navigate('/confirmPayrollProcess')}>
@@ -107,7 +100,6 @@ export default function RunPayrollCalculation() {
                     <span className="text-[14px] text-[#FFFFFF]">Proceed to Confirm Payroll</span>
                 </button>
             </div>
-
         </div>
     )
 }
