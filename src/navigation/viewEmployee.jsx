@@ -240,7 +240,7 @@ function ViewEmployee() {
         const fetchEmployee = async () => {
             try {
                 const response = await axios.get(
-                    `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/`,
+                    `https://hrmsbackend-z1jz.onrender.com/api/employees/${id}/`,
                     {
                         headers: {
                             Accept: "application/json",
@@ -271,7 +271,7 @@ function ViewEmployee() {
         const handledocuments = async () => {
             try {
                 const response = await axios.get(
-                    `https://hrmsbackend-ej88.onrender.com/api/employees/${emp_id}/documents/`,
+                    `https://hrmsbackend-z1jz.onrender.com/api/employees/${emp_id}/documents/`,
                     {
                         headers: {
                             Accept: "application/json",

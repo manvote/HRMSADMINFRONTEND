@@ -29,7 +29,7 @@ function Offboarding() {
     const fetchEmployee = async () => {
       try {
         const response = await axios.get(
-          `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/`,
+          `https://hrmsbackend-z1jz.onrender.com/api/employees/${id}/`,
           {
             headers: {
               Accept: "application/json",
@@ -77,7 +77,7 @@ function Offboarding() {
 
     try {
       const response = await axios.post(
-        `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/offboarding/`,
+        `https://hrmsbackend-z1jz.onrender.com/api/employees/${id}/offboarding/`,
         data,
         {
           headers: {
@@ -98,7 +98,7 @@ function Offboarding() {
   const DeactivateEmployee = async () => {
     try {
       await axios.post(
-        `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/deactivate/`,
+        `https://hrmsbackend-z1jz.onrender.com/api/employees/${id}/deactivate/`,
         {},
         {
           headers: {

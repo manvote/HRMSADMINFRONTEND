@@ -62,11 +62,11 @@ function EditEmployee() {
         const token = localStorage.getItem("access");
         const [employeeRes, documentsRes] = await Promise.all([
           axios.get(
-            `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/`,
+            `https://hrmsbackend-z1jz.onrender.com/api/employees/${id}/`,
             { headers: { Authorization: `Bearer ${token}`, }, }
           ),
           axios.get(
-            `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/documents/`,
+            `https://hrmsbackend-z1jz.onrender.com/api/employees/${id}/documents/`,
             { headers: { Authorization: `Bearer ${token}`, }, }
           ),
         ]);
@@ -99,7 +99,7 @@ function EditEmployee() {
   const handleSubmit = async () => {
     try {
       await axios.put(
-        `https://hrmsbackend-ej88.onrender.com/api/employees/${id}/update/`,
+        `https://hrmsbackend-z1jz.onrender.com/api/employees/${id}/update/`,
         formData,
         { headers: {
             "Content-Type": "multipart/form-data",

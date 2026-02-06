@@ -1,6 +1,7 @@
 import Employees from './pages/employees'
 import MainLayout from './MainLayout';
 import Payroll from './pages/Payroll';
+import Leave from './pages/Leave';
 
 //Navigation
 import ViewEmployee from './navigation/viewEmployee';
@@ -37,9 +38,11 @@ function App() {
           <Route path="/offboarding/:id" element={<Offboarding />} />
           <Route path="/payroll" element={<Payroll />} />
           <Route path="/processPayroll" element={<ProcessPayroll />} />
+
           <Route path="/runPayrollCalculation" element={<RunPayrollCalculation />} />
           <Route path="/confirmPayrollProcess" element={<ConfirmPayrollProcess />} />
           <Route path="/document" element={<Document />} />
+          <Route path="/leave" element={<Leave />} />
         </Route>
       </Routes>  
     </>

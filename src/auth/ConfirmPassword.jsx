@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ConfirmPassword() {
 
-  const BASE_URL = "https://hrmsbackend-ej88.onrender.com";
+  const BASE_URL = "https://hrmsbackend-z1jz.onrender.com";
 
   async function password({ oldPassword, newPassword, confirmPassword }) {
     try {

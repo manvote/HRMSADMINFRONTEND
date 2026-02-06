@@ -12,6 +12,8 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiFilter } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
+import { CiPhone } from "react-icons/ci";
 
 
 
@@ -31,7 +33,7 @@ function Employees() {
   const fetchEmployees = async () => {
     try {
       const res = await axios.get(
-        "https://hrmsbackend-ej88.onrender.com/api/employees/",
+        "https://hrmsbackend-z1jz.onrender.com/api/employees/",
         {
           headers: {
             Accept: "application/json",
@@ -158,7 +160,7 @@ function EmployeeCard({
   sortOrder,
   onSort,
   onSelectAll,
-  selectedCount        // ✅ select one handler
+  selectedCount
 }) {
 
   return (
@@ -255,6 +257,8 @@ function EmployeeGrid({ filteredUsers, selected, onSelectOne }) {
             <div className="d-flex">
               <p className="employee-location"><SlLocationPin className="icon1" /><span className="id ps-1">{emp.location}</span></p>
             </div>
+            <p className="mb-0 pb-1"><FiMail className="icon1" /><span className="id">{emp.email}</span></p>
+            <p className="mb-0"><CiPhone className="icon1" /><span className="id">{emp.phone}</span></p>
             <div className="card-bottom">
               <button
                 className="primary view-button"

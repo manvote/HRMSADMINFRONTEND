@@ -8,7 +8,7 @@ import axios from "axios";
 
 export default function Login() {
 
-  const BASE_URL = "https://hrmsbackend-ej88.onrender.com";
+  const BASE_URL = "https://hrmsbackend-z1jz.onrender.com";
 
   async function login({ email, password }) {
     try {
