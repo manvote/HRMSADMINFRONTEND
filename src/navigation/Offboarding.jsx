@@ -83,7 +83,7 @@ function Offboarding() {
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${acces}`,
-          },
+          },e
         }
       );
 
