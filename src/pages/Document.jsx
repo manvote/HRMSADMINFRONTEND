@@ -1,4 +1,4 @@
-import {DocumentTextIcon,ArrowDownTrayIcon,CloudArrowUpIcon,MagnifyingGlassIcon,ClockIcon,} from "@heroicons/react/24/outline";
+import { DocumentTextIcon, ArrowDownTrayIcon, CloudArrowUpIcon, MagnifyingGlassIcon, ClockIcon, } from "@heroicons/react/24/outline";
 
 const StatCard = ({ title, value, subtitle, icon }) => (
   <div className="bg-white border rounded-lg p-4 flex gap-3 items-center shadow-sm">
@@ -10,7 +10,7 @@ const StatCard = ({ title, value, subtitle, icon }) => (
     </div>
   </div>
 );
-   const categories = [
+const categories = [
   {
     title: "Employee Records",
     count: "92 documents",
@@ -64,39 +64,39 @@ export default function Document() {
       <div className=" grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 
         <div className="web rounded-2xl ">
-        <StatCard 
-          title="Total Documents"
-          value="248"
-          subtitle="All files"
-          icon={<DocumentTextIcon className="w-6 h-6 text-blue-600" />}
+          <StatCard
+            title="Total Documents"
+            value="248"
+            subtitle="All files"
+            icon={<DocumentTextIcon className="w-6 h-6 text-blue-600" />}
           />
         </div>
 
         <div className="web rounded-2xl ">
-        <StatCard
-          title="Policies"
-          value="45"
-          subtitle="Company policies"
-          icon={<DocumentTextIcon className="w-6 h-6 text-blue-600" />}
-        />
+          <StatCard
+            title="Policies"
+            value="45"
+            subtitle="Company policies"
+            icon={<DocumentTextIcon className="w-6 h-6 text-blue-600" />}
+          />
         </div>
 
         <div className="web rounded-2xl ">
-        <StatCard
-          title="Forms & Templates"
-          value="82"
-          subtitle="Ready to use"
-          icon={<DocumentTextIcon className="w-6 h-6 text-blue-600" />}
-        />
+          <StatCard
+            title="Forms & Templates"
+            value="82"
+            subtitle="Ready to use"
+            icon={<DocumentTextIcon className="w-6 h-6 text-blue-600" />}
+          />
         </div>
 
         <div className="web rounded-2xl ">
-        <StatCard
-          title="Expiring Soon"
-          value="7"
-          subtitle="Requires renewal"
-          icon={<ClockIcon className="w-6 h-6 text-blue-600" />}
-        />
+          <StatCard
+            title="Expiring Soon"
+            value="7"
+            subtitle="Requires renewal"
+            icon={<ClockIcon className="w-6 h-6 text-blue-600" />}
+          />
         </div>
 
       </div>
@@ -186,42 +186,42 @@ export default function Document() {
         </div>
       </div>
 
-{/* document categories */}
-    <div className="bg-white border rounded-xl p-6 shadow-sm">
-      {/* Title */}
-      <h2 className="text-lg font-semibold text-gray-900">
-        Document Categories
-      </h2>
-      <p className="text-sm text-gray-500 mb-6">
-        Browse documents by category
-      </p>
+      {/* document categories */}
+      <div className="bg-white border rounded-xl p-6 shadow-sm">
+        {/* Title */}
+        <h2 className="text-lg font-semibold text-gray-900">
+          Document Categories
+        </h2>
+        <p className="text-sm text-gray-500 mb-6">
+          Browse documents by category
+        </p>
 
-      {/* Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {categories.map((item, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-4 p-4 border rounded-xl bg-white shadow-sm hover:shadow-md transition"
-          >
-            {/* Icon */}
-            <div className={`p-3 rounded-lg ${item.bg}`}>
-              <DocumentTextIcon className={`w-6 h-6 ${item.color}`} />
-            </div>
+        {/* Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {categories.map((item, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-4 p-4 border rounded-xl bg-white shadow-sm hover:shadow-md transition"
+            >
+              {/* Icon */}
+              <div className={`p-3 rounded-lg ${item.bg}`}>
+                <DocumentTextIcon className={`w-6 h-6 ${item.color}`} />
+              </div>
 
-            {/* Text */}
-            <div>
-              <p className="text-sm font-semibold text-gray-900">
-                {item.title}
-              </p>
-              <p className="text-xs text-gray-500">
-                {item.count}
-              </p>
+              {/* Text */}
+              <div>
+                <p className="text-sm font-semibold text-gray-900">
+                  {item.title}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {item.count}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  
+
 
       {/* Expiry Reminders */}
       <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">

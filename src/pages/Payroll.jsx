@@ -64,7 +64,7 @@ export default function Payroll() {
     },
   }
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   return (
     <div className="grid grid-cols-[256px 1fr] min-h-screen w-full">
@@ -85,7 +85,7 @@ export default function Payroll() {
               <span className="text-[#00214D] text-[13px]">Export Payroll</span>
             </button>
             <button className="bg-[#005DD6] flex h-[40px] w-[152px] shadow-md items-center justify-center rounded"
-            onClick={ () => navigate('/processpayroll')}>
+              onClick={() => navigate('/processpayroll')}>
               <img src={Process} alt="" className="w-4 h-4 mr-3" />
               <span className="text-[13px] text-white">Process Payroll</span>
             </button>
@@ -145,14 +145,14 @@ export default function Payroll() {
             { label: "Tax Calculations", percent: "40%" },
             { label: "Salary Disburement", percent: "60%" }
           ].map((item, index) => (
-              <div key={index} className="mb-4">
-                <div className="flex justify-between text-sm font-medium text-gray-700 mb-2">
-                  <span className="text-[13px] text-[#00214D]">{item.label}</span>
-                  <span className="text-[14px] text-[#16A249]">{item.percent}</span>
-                </div>
-                <div className="bg-[#16A249] h-[8px] rounded-full" style={{ width: item.percent }}>
-                </div>
+            <div key={index} className="mb-4">
+              <div className="flex justify-between text-sm font-medium text-gray-700 mb-2">
+                <span className="text-[13px] text-[#00214D]">{item.label}</span>
+                <span className="text-[14px] text-[#16A249]">{item.percent}</span>
               </div>
+              <div className="bg-[#16A249] h-[8px] rounded-full" style={{ width: item.percent }}>
+              </div>
+            </div>
           ))
           }
         </div>
@@ -184,7 +184,7 @@ export default function Payroll() {
                   <span className="text-[13px] text-[#00214D]">{item.label}</span>
                   <span className="text-[13px] text-[#00214D]">{item.amount}</span>
                 </div>
-                <div className="w-full bg-[#F0F4FF] h-[8px] rounded-full mt-2" style={{width: item.amount.indexOf(index, 0)}}/>
+                <div className="w-full bg-[#F0F4FF] h-[8px] rounded-full mt-2" style={{ width: item.amount.indexOf(index, 0) }} />
               </div>
             ))
             }

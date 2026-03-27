@@ -26,7 +26,6 @@ function App() {
   return (
     <>
       <Routes>
-
         <Route path="/" element={<Login />} />
         <Route path="/confirmPassword" element={<ConfirmPassword />} />
 
@@ -44,7 +43,7 @@ function App() {
           <Route path="/document" element={<Document />} />
           <Route path="/leave" element={<Leave />} />
         </Route>
-      </Routes>  
+      </Routes>
     </>
   );
 }

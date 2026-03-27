@@ -35,7 +35,7 @@ export default function RunPayrollCalculation() {
                         </div>
                     </div>
                 ))
-                }
+                } 
             </div>
             <div className="bg-[#FFFFFF] rounded-lg shadow-md p-6 mt-6">
                 <span className="text-[#0F1729] text-[18px] font-bold">Calculation Breakdown</span>

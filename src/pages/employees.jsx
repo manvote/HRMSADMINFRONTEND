@@ -29,27 +29,27 @@ function Employees() {
   const [sortOrder, setSortOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
 
- useEffect(() => {
-  const fetchEmployees = async () => {
-    try {
-      const res = await axios.get(
-        "https://hrmsbackend-z1jz.onrender.com/api/employees/",
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access")}`,
-          },
-        }
-      );
-      setEmployees(res.data);
-    } catch (error) {
-      console.error("Error fetching employees:", error);
-      setEmployees([]);
-    }
-  };
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const res = await axios.get(
+          "https://hrmsbackend-z1jz.onrender.com/api/employees/",
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("access")}`,
+            },
+          }
+        );
+        setEmployees(res.data);
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+        setEmployees([]);
+      }
+    };
 
-  fetchEmployees();
-}, []);
+    fetchEmployees();
+  }, []);
 
 
   const term = (searchTerm || "").toLowerCase();

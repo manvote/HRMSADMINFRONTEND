@@ -66,30 +66,30 @@ export default function ProcessPayroll() {
             <div className="bg-[#FFFFFF] rounded-lg shadow-md p-6 mt-6">
                 <span className="text-[#0F1729] text-[18px] font-bold mt-6">Pre-Processing Checklist</span>
                 <div className='mt-3'>
-                {[
-                    { label: 'Attendance Data Verified', icon: '', status: 'Verified' },
-                    { label: 'Leave Adjustments Applied', icon: '', status: 'Pending' },
-                    { label: 'Salary Components Locked', icon: '', status: 'Verified' },
-                    { label: 'Tax Calculations Completed', icon: '', status: 'Pending' },
-                    { label: 'Compliance Deductions Applied', icon: '', status: 'Verified' },
-                ].map((item, index) => (
-                    <div key={index}>
-                        <div className='flex justify-between items-center px-4 py-2 mb-2 rounded-lg bg-[#F0F4FF80]'>
-                            <div>
-                                <img src="" alt="" />
-                                <span className='text-[14px] text-[#0F1729]'>{item.label}</span>
-                            </div>
-                            <div>
-                                {item.status === 'Verified' ? (
-                                    <td className="text-left text-[#15803D] bg-[#DCFCE7] text-[12px] font-medium p-2 rounded-lg">{item.status}</td>
-                                ) : (
-                                    <td className="text-left text-[#C2410C] bg-[#FFEDD5] text-[12px] font-medium p-2 rounded-lg">{item.status}</td> 
-                                )}
+                    {[
+                        { label: 'Attendance Data Verified', icon: '', status: 'Verified' },
+                        { label: 'Leave Adjustments Applied', icon: '', status: 'Pending' },
+                        { label: 'Salary Components Locked', icon: '', status: 'Verified' },
+                        { label: 'Tax Calculations Completed', icon: '', status: 'Pending' },
+                        { label: 'Compliance Deductions Applied', icon: '', status: 'Verified' },
+                    ].map((item, index) => (
+                        <div key={index}>
+                            <div className='flex justify-between items-center px-4 py-2 mb-2 rounded-lg bg-[#F0F4FF80]'>
+                                <div>
+                                    <img src="" alt="" />
+                                    <span className='text-[14px] text-[#0F1729]'>{item.label}</span>
+                                </div>
+                                <div>
+                                    {item.status === 'Verified' ? (
+                                        <td className="text-left text-[#15803D] bg-[#DCFCE7] text-[12px] font-medium p-2 rounded-lg">{item.status}</td>
+                                    ) : (
+                                        <td className="text-left text-[#C2410C] bg-[#FFEDD5] text-[12px] font-medium p-2 rounded-lg">{item.status}</td>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))
-                }
+                    ))
+                    }
                 </div>
 
                 <div></div>
@@ -118,21 +118,21 @@ export default function ProcessPayroll() {
                             { name: 'David Wilson', empno: 'EMP005', dept: 'Sales', grossSalary: '$5800', deductions: '$650', netSalary: '$5150', status: 'Ready' },
                         ].map((column) => (
                             <div className='border-t-[1px] border-[#E1E7EF]'>
-                            <tr key={column.empno} className="grid grid-cols-7">
-                                <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.name}</td>
-                                <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.empno}</td>
-                                <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.dept}</td>
-                                <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.grossSalary}</td>
-                                <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.deductions}</td>
-                                <td className="text-left text-[#0F1729] text-[14px] font-bold p-3">{column.netSalary}</td>
-                                <td className="m-2">
-                                    {column.status === 'Ready' ? (
-                                        <td className="text-left text-[#15803D] bg-[#DCFCE7] text-[12px] font-medium p-2 rounded-lg">{column.status}</td>
-                                    ) : (
-                                        <td className="text-left text-[#A16207] bg-[#FEF9C3] text-[12px] font-medium p-2 rounded-lg">{column.status}</td>
-                                    )}
-                                </td>
-                            </tr>
+                                <tr key={column.empno} className="grid grid-cols-7">
+                                    <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.name}</td>
+                                    <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.empno}</td>
+                                    <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.dept}</td>
+                                    <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.grossSalary}</td>
+                                    <td className="text-left text-[#0F1729] text-[14px] font-medium p-3">{column.deductions}</td>
+                                    <td className="text-left text-[#0F1729] text-[14px] font-bold p-3">{column.netSalary}</td>
+                                    <td className="m-2">
+                                        {column.status === 'Ready' ? (
+                                            <td className="text-left text-[#15803D] bg-[#DCFCE7] text-[12px] font-medium p-2 rounded-lg">{column.status}</td>
+                                        ) : (
+                                            <td className="text-left text-[#A16207] bg-[#FEF9C3] text-[12px] font-medium p-2 rounded-lg">{column.status}</td>
+                                        )}
+                                    </td>
+                                </tr>
                             </div>
                         ))
                         }
@@ -165,7 +165,7 @@ export default function ProcessPayroll() {
 
             <div className='mt-6 gap-4 flex mb-5'>
                 <button className="bg-[#005DD6] py-2.5 px-6 rounded mt-6 shadow-lg mb-6 flex items-center gap-2"
-                onClick={() => navigate('/runPayrollCalculation')}>
+                    onClick={() => navigate('/runPayrollCalculation')}>
                     <img src={Run} alt="run" />
                     <span className="text-[14px] text-[#FFFFFF]">Run Payroll Calculation</span>
                 </button>

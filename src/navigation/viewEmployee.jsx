@@ -230,10 +230,10 @@ function ViewEmployee() {
     const navigate = useNavigate();
 
     const [employee, setEmployee] = useState(null);
+    
     const [emp_id, setEmployeeID] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-
     const [activeTab, setActiveTab] = useState(1);
 
     useEffect(() => {
@@ -248,8 +248,7 @@ function ViewEmployee() {
                         },
                     }
                 );
-
-                console.log(response.data); 
+                console.log(response.data);
                 setEmployee(response.data);
                 if (response.data && response.data.employee_code) {
                     setEmployeeID(response.data.employee_code);
@@ -266,8 +265,7 @@ function ViewEmployee() {
     }, [id]);
 
     useEffect(() => {
-
-        if (!emp_id) return;    
+        if (!emp_id) return;
         const handledocuments = async () => {
             try {
                 const response = await axios.get(
@@ -298,8 +296,6 @@ function ViewEmployee() {
     if (!employee) {
         return <div className="text-center p-5">Employee not found</div>;
     }
-
-    
     return (
         <div className="view-container">
             <div className="container-fluid view-navigation pe-4">
@@ -321,24 +317,24 @@ function ViewEmployee() {
                             </div>
                         </span>
                     </div>
-                    <div className="d-flex"> 
+                    <div className="d-flex">
                         <p className="view1 mb-0">
-                        {employee.designation || "-"}
-                    </p>
+                            {employee.designation || "-"}
+                        </p>
                     </div>
-                    
+
                     <div className="view2">
                         <p className="view1 mb-0 pt-2">
-                        <FiBriefcase className="icon1 me-0" /> {employee.department || "-"}
-                        <span className="ms-3 "><SlLocationPin className="icon1 me-0" /> {employee.location || "-"}
-                        <MdMailOutline className="email_icon ms-3" /> {employee.email || "-"}
-                        </span>
-                    </p>
+                            <FiBriefcase className="icon1 me-0" /> {employee.department || "-"}
+                            <span className="ms-3 "><SlLocationPin className="icon1 me-0" /> {employee.location || "-"}
+                                <MdMailOutline className="email_icon ms-3" /> {employee.email || "-"}
+                            </span>
+                        </p>
                     </div>
                     <div className="mt-2">
                         <p><CiPhone className="phone-icon" /> <span className="icon1">{employee.phone || "-"}</span></p>
                     </div>
-                    
+
                 </div>
 
                 <div className="ms-auto">
@@ -366,7 +362,7 @@ function ViewEmployee() {
                     </div>
                 </div>
             </div>
-
+            
             <Tablist activeTab={activeTab} setActiveTab={setActiveTab} />
 
             <div className="tab-content">
@@ -483,7 +479,6 @@ function Jobs({ employee }) {
                 </div>
             </div>
         </div>
-
     );
 };
 

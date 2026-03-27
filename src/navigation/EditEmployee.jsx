@@ -101,7 +101,8 @@ function EditEmployee() {
       await axios.put(
         `https://hrmsbackend-z1jz.onrender.com/api/employees/${id}/update/`,
         formData,
-        { headers: {
+        {
+          headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("access")}`,
           },

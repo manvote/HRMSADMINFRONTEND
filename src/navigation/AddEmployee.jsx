@@ -103,7 +103,7 @@ function AddEmployee() {
 
         try {
             const data = new FormData();
-        
+
             Object.keys(formData).forEach((key) => {
                 if (formData[key] !== null && formData[key] !== "") {
                     data.append(key, formData[key]);
@@ -174,7 +174,7 @@ function AddEmployee() {
                             key={index}
                             className={`flex flex-col cursor-pointer border rounded-lg p-4 text-center ${formData[doc] ? "border-green-500" : "border-dashed"}`}
                             onClick={() => handleFileClick(doc)}
-                            // value={formData[doc]}
+                        // value={formData[doc]}
                         >
                             <div className="upload-icon text-xl mb-2">
                                 <LuUpload />

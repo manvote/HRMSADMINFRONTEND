@@ -83,7 +83,7 @@ function Offboarding() {
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${acces}`,
-          },e
+          }, e
         }
       );
 
@@ -229,7 +229,7 @@ function Offboarding() {
 }
 
 
-function Input({ label, type="text", name, value, onChange }) {
+function Input({ label, type = "text", name, value, onChange }) {
   return (
     <div className="form-group">
       <label>{label}</label>
