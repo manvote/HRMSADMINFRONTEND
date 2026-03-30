@@ -91,12 +91,11 @@ export default function Payroll() {
             </button>
           </div>
         </div>
-
         <div className="flex justify-center">
           <div className="h-[120px] w-[266px] bg-[#FFFFFF] m-6 rounded-lg py-2 px-4 shadow-md border-[1px] border-[#DBE1F0]">
             <p className="text-[#667C99] text-[12px] pt-2">Current Month</p>
             <div className="flex items-center">
-              <img src={box1} alt="" className="w-[35px] h-[35px] mt-2" />
+              <img src={box1} alt="" className="w-[35px] h-8.75 mt-2" />
               <div className="pl-5 h-[35px]">
                 <h5 className="mb-0 text-[21px] text-[#00214D]">$92.0L</h5>
                 <p className="mt-0 text-[11px] text-[#667C99]">cgcurc</p>
