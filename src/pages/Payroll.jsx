@@ -111,6 +111,7 @@ export default function Payroll() {
                 <p className="mt-0 text-[13px] text-[#667C99]">on</p>
               </div>
             </div>
+            
           </div>
           <div className="h-[120px] w-[266px] bg-[#FFFFFF] m-6 rounded-lg py-2 px-4 shadow-md">
             <p className="text-[#667C99] text-[12px] pt-2">Avg CTC</p>
